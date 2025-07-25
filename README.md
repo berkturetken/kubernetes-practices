@@ -19,3 +19,4 @@
 - [1.2](https://github.com/berkturetken/kubernetes-practices/tree/1.2/the_project)
     - `kubectl delete deployment RESOURCE`: take an existing deployment down
     - `kubectl apply -f manifests/deployment.yaml`: apply a deployment
+- [1.3](https://github.com/berkturetken/kubernetes-practices/tree/1.3/log_output)
