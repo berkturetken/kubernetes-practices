@@ -3,7 +3,7 @@
 ## Exercises
 
 ### Chapter 2
-- [1.1](https://github.com/berkturetken/kubernetes-practices/tree/1.1)
+- [1.1](https://github.com/berkturetken/kubernetes-practices/tree/1.1/log_output)
     - `k3d cluster create -a 2`: creates a Kubernetes cluster with 2 agent nodes
     - `k3d kubeconfig get k3s-default`: view the content of kubeconfig
     - `kubectl config use-context k3d-k3s-default`: set the context to the correct cluster
