@@ -33,3 +33,4 @@
     - `kubectl port-forward POD_NAME LOCAL_PORT:CONTAINER_PORT`: forward a local port to a pod. Allows you to easily access application running inside your Kubernetes cluster. Not meant for a production use but very useful for debugging and development purposes.
 - [1.5](https://github.com/berkturetken/kubernetes-practices/tree/1.5/the_project)
     - `k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2`: open local 8081 to 80 in k3d-k3s-default-serverlb and local 8082 to 30080 in k3d-k3s-default-agent-0.
+- [1.6](https://github.com/berkturetken/kubernetes-practices/tree/1.6/the_project)
