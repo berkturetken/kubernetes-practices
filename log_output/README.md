@@ -1,5 +1,9 @@
-# Steps
+# Log Output
 
+## How to run the application? (1.3)
+`kubectl apply -f log_output/manifests/deployment.yaml`
+
+## First deployment (1.1)
 - Create the application --> main.py
 - Write the Dockerfile to build the image --> Dockerfile
 - Build a docker image: `docker build -t <docker-username>/log-output:latest .`
