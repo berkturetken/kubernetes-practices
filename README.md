@@ -31,4 +31,4 @@
         - `kubectl logs`: follow the logs of (possibly) broken software
         - `kubectl delete`
     - `kubectl port-forward POD_NAME LOCAL_PORT:CONTAINER_PORT`: forward a local port to a pod. Allows you to easily access application running inside your Kubernetes cluster. Not meant for a production use but very useful for debugging and development purposes.
-    - 
+- [1.5](https://github.com/berkturetken/kubernetes-practices/tree/1.5/the_project)
