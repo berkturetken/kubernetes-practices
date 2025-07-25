@@ -17,3 +17,4 @@
     - `kubectl explain RESOURCE`: get a simple explanation of a resource
     - `kubectl logs -f RESOURCE`: get logs of a resource
 - [1.2]()
+    - 
