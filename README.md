@@ -16,5 +16,5 @@
     - `kubectl get deployments`: list all objects of a deployment
     - `kubectl explain RESOURCE`: get a simple explanation of a resource
     - `kubectl logs -f RESOURCE`: get logs of a resource
-- [1.2]()
+- [1.2](https://github.com/berkturetken/kubernetes-practices/tree/1.2/the_project)
     - 
