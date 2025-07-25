@@ -3,12 +3,14 @@ kind: Service
 metadata:
   name: todo-app-svc
 spec:
-  type: NodePort      # should not be used in production
+  # NodePort: should not be used in production
+  # ClusterIP: gives the Service an internal IP address that can be acccesible within the cluster
+  type: ClusterIP
   selector:
     app: todo-app
   ports:
   - name: http
-    nodePort: 30080   # the port that is available outside. Value for nodePort must be between 30000 and 32767
+    # nodePort: 30080   # the port that is available outside. Value for nodePort must be between 30000 and 32767
     protocol: TCP
-    port: 1234        # the port that is available to the cluster
-    targetPort: 8080  # target port
+    port: 2345          # the port that is available to the cluster
+    targetPort: 8080    # target port
