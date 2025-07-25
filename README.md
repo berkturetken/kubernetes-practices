@@ -34,3 +34,4 @@
 - [1.5](https://github.com/berkturetken/kubernetes-practices/tree/1.5/the_project)
     - `k3d cluster create --port 8082:30080@agent:0 -p 8081:80@loadbalancer --agents 2`: open local 8081 to 80 in k3d-k3s-default-serverlb and local 8082 to 30080 in k3d-k3s-default-agent-0.
 - [1.6](https://github.com/berkturetken/kubernetes-practices/tree/1.6/the_project)
+- [1.7](https://github.com/berkturetken/kubernetes-practices/tree/1.7/log_output)
