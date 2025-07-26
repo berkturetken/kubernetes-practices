@@ -12,6 +12,13 @@ spec:
       labels:
         app: ping-pong
     spec:
+      volumes:
+      - name: shared-log-output
+        persistentVolumeClaim:
+          claimName: log-and-ping-pong-claim
       containers:
       - name: ping-pong
-        image: berkturetkenwartsila/ping_pong:0.2
+        image: berkturetkenwartsila/ping_pong:0.4
+        volumeMounts:
+        - name: shared-log-output
+          mountPath: /usr/src/app/files
