@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: log-and-ping-pong-claim
+  name: first-simple-claim
 spec:
   storageClassName: manual
   accessModes:
