@@ -43,3 +43,5 @@
         - PVs have a lifecycle independent of any individual pod that uses the PV.
         - `local` PVs uses a path in a cluster node as the storage. This solution ties the volume to a particular node and if the node becomes unavailable, the storage is not usable. Therefore, local PVs are not a solution which can be used in *production*.
 - [1.11](https://github.com/berkturetken/kubernetes-practices/tree/1.11)
+- [1.12](https://github.com/berkturetken/kubernetes-practices/tree/1.12/the_project)
+
