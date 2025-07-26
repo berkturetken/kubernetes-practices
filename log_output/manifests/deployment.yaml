@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: log-output
+  name: log-output-dep
 spec:
   replicas: 1
   selector:
@@ -12,6 +12,17 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+      - name: shared-log-output
+        emptyDir: {}
       containers:
-      - name: log-output
-        image: berkturetkenwartsila/log_output:0.1
+      - name: random-string-generator
+        image: berkturetkenwartsila/random_string_generator:0.2
+        volumeMounts:
+        - name: shared-log-output
+          mountPath: /usr/src/app/files
+      - name: random-string-provider
+        image: berkturetkenwartsila/random_string_provider:0.2
+        volumeMounts:
+        - name: shared-log-output
+          mountPath: /usr/src/app/files
