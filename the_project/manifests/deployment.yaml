@@ -18,7 +18,7 @@ spec:
           claimName: first-simple-claim
       containers:
       - name: todo-app
-        image: berkturetkenwartsila/the_project:0.3
+        image: berkturetkenwartsila/the_project:0.5
         volumeMounts:
         - name: todo-app-volume
           mountPath: /app/files
