@@ -38,3 +38,7 @@
 - [1.8](https://github.com/berkturetken/kubernetes-practices/tree/1.8/the_project)
 - [1.9](https://github.com/berkturetken/kubernetes-practices/tree/1.9/ping_pong)
 - [1.10](https://github.com/berkturetken/kubernetes-practices/tree/1.10/log_output)
+    - `empytyDir volumes`: are shared filesystems inside a pod which means their lifecycle is tied to a  pod. When the pod is destroyed the data is lost.
+    - `Persistent volumes`: cluster-wide resource which represents a piece of storage in the cluster that has been provisioned by the cluster administrator or is dynamically provisioned.
+        - PVs have a lifecycle independent of any individual pod that uses the PV.
+        - `local` PVs uses a path in a cluster node as the storage. This solution ties the volume to a particular node and if the node becomes unavailable, the storage is not usable. Therefore, local PVs are not a solution which can be used in *production*.
