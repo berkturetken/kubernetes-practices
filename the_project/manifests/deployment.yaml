@@ -12,9 +12,13 @@ spec:
       labels:
         app: todo-app
     spec:
+      volumes:
+      - name: todo-app-volume
+        persistentVolumeClaim:
+          claimName: log-and-ping-pong-claim
       containers:
       - name: todo-app
-        image: berkturetkenwartsila/the_project:0.2
-        env:
-        - name: PORT
-          value: "8080"
+        image: berkturetkenwartsila/the_project:0.3
+        volumeMounts:
+        - name: todo-app-volume
+          mountPath: /app/files
