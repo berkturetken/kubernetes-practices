@@ -16,7 +16,7 @@ spec:
       volumes:
       - name: shared-log-output
         persistentVolumeClaim:
-          claimName: first-simple-claim
+          claimName: log-output-claim
       containers:
       - name: random-string-generator
         image: berkturetkenwartsila/random_string_generator:0.3

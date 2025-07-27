@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: project
   name: todo-frontend
 spec:
   replicas: 1
@@ -15,7 +16,7 @@ spec:
       volumes:
       - name: todo-frontend-volume
         persistentVolumeClaim:
-          claimName: first-simple-claim
+          claimName: todo-app-claim
       containers:
       - name: todo-frontend
         image: berkturetkenwartsila/todo_frontend:0.2
