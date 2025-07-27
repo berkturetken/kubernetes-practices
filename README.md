@@ -57,3 +57,11 @@
 - In general, these kinds of "stand-alone" pods are good for debugging but *all application pods should be created by using a deployment*. The reason for this is that if a node where the pod resides crashes, the stand-alone pods are gone! When a pod is controlled by a deployment, Kubernetes takes care of redeployment in case of node failures.
 - [2.1](https://github.com/berkturetken/kubernetes-practices/tree/2.1/log_output)
 - [2.2](https://github.com/berkturetken/kubernetes-practices/tree/2.2/todo_app)
+
+- Namespaces are used to keep resources separated. For example, A company that uses one cluster but has multiple projects can use namespaces to split the cluster into virtual clusters, one for each project. Most commonly, they would be used to separate environments such as production, testing, staging.
+-  DNS entry for services includes the namespace so you can still have projects communicate with each other if needed through `service.namespace` address. For example, if there is a service called cat-pictures in a namespace ns-test, it could be reached from other namespaces via `http://cat-pictures.ns-test`.
+- `k create namespace <namespace_name>`: create a namespace
+- `k get all --all-namespaces`: see everything
+- `k get pods -n kube-system`: see what the namespace kube-system has
+- Namespaces should be kept separate - for example, we could run all of the examples and do the exercises of this course in a cluster that is shared with critical software but that would not be a smart thing to do. An administrator should set a *ResourceQuota* for that namespace, so that you can safely run anything there.
+- `k config set-context --current --namespace=<name>`: set the namespace to be used by default
