@@ -68,3 +68,4 @@
 - `k config set-context --current --namespace=<name>`: set the namespace to be used by default
 
 - [2.3](https://github.com/berkturetken/kubernetes-practices/tree/2.3/log_output)
+- [2.4](https://github.com/berkturetken/kubernetes-practices/tree/2.4/todo_app)
