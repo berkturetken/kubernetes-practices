@@ -56,3 +56,4 @@
 - Note that in contrast to the last part, we have now created a stand-alone pod in our cluster, there was no deployment object at all.
 - In general, these kinds of "stand-alone" pods are good for debugging but *all application pods should be created by using a deployment*. The reason for this is that if a node where the pod resides crashes, the stand-alone pods are gone! When a pod is controlled by a deployment, Kubernetes takes care of redeployment in case of node failures.
 - [2.1](https://github.com/berkturetken/kubernetes-practices/tree/2.1/log_output)
+- [2.2](https://github.com/berkturetken/kubernetes-practices/tree/2.2/todo_app)
