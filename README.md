@@ -55,6 +55,7 @@
 - We can also access the pod directly. Get the IP address through the command `kubectl describe pod <pod_name>`. Then, `kubectl exec -it my-busybox wget -qO - http://10.42.0.63:3000`. Remember to use the targetPort from the *Service* resource here.
 - Note that in contrast to the last part, we have now created a stand-alone pod in our cluster, there was no deployment object at all.
 - In general, these kinds of "stand-alone" pods are good for debugging but *all application pods should be created by using a deployment*. The reason for this is that if a node where the pod resides crashes, the stand-alone pods are gone! When a pod is controlled by a deployment, Kubernetes takes care of redeployment in case of node failures.
+
 - [2.1](https://github.com/berkturetken/kubernetes-practices/tree/2.1/log_output)
 - [2.2](https://github.com/berkturetken/kubernetes-practices/tree/2.2/todo_app)
 
@@ -65,3 +66,5 @@
 - `k get pods -n kube-system`: see what the namespace kube-system has
 - Namespaces should be kept separate - for example, we could run all of the examples and do the exercises of this course in a cluster that is shared with critical software but that would not be a smart thing to do. An administrator should set a *ResourceQuota* for that namespace, so that you can safely run anything there.
 - `k config set-context --current --namespace=<name>`: set the namespace to be used by default
+
+- [2.3](https://github.com/berkturetken/kubernetes-practices/tree/2.3/log_output)
