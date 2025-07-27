@@ -45,3 +45,13 @@
 - [1.11](https://github.com/berkturetken/kubernetes-practices/tree/1.11)
 - [1.12](https://github.com/berkturetken/kubernetes-practices/tree/1.12/the_project)
 - [1.13](https://github.com/berkturetken/kubernetes-practices/tree/1.13/the_project)
+
+### Chapter 3
+- Kubernetes includes a DNS service. Containers in a pod share the network. As such, every other container inside a pod is accessible from localhost. For communication between pods, a *Service* resource is used as they expose the Pods as a network service. Alternatively, each pod has an IP created by Kubernetes.
+- We can have a debugging `Pod` resource (do note that not a `Service`) which means we can go inside a pod and send a request to another pod (busybox is a good option for this purpose).
+- `kubectl exec -it todo-app-7784476879-mvhd7 -- sh`: Open a shell in a pod
+- `kubectl exec -it my-busybox -- wget -qO - http://todo-backend-svc:2345`: Fetch the content from the service todo-backend-svc on port 2345 and prints the result to the terminal.
+- You get the same result by using the service cluster IP address. Check the address through `kubectl get svc`. And then, `kubectl exec -it my-busybox -- wget -qO - http://10.43.89.182:2345`.
+- We can also access the pod directly. Get the IP address through the command `kubectl describe pod <pod_name>`. Then, `kubectl exec -it my-busybox wget -qO - http://10.42.0.63:3000`. Remember to use the targetPort from the *Service* resource here.
+- Note that in contrast to the last part, we have now created a stand-alone pod in our cluster, there was no deployment object at all.
+- In general, these kinds of "stand-alone" pods are good for debugging but *all application pods should be created by using a deployment*. The reason for this is that if a node where the pod resides crashes, the stand-alone pods are gone! When a pod is controlled by a deployment, Kubernetes takes care of redeployment in case of node failures.
