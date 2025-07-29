@@ -69,3 +69,22 @@
 
 - [2.3](https://github.com/berkturetken/kubernetes-practices/tree/2.3/log_output)
 - [2.4](https://github.com/berkturetken/kubernetes-practices/tree/2.4/todo_app)
+
+- `Secrets` are for sensitive information that are given to containers on runtime.
+- `ConfigMaps` are quite much like secrets but they may contain any kind of configurations.
+    - Use case; we may have a `ConfigMap` mapped to a file with some values that the server reads during runtime.
+- Both can also be used to introduce environment variables.
+- `Secrets` use base64 encoding to avoid having to deal with special characters.
+- `echo -n '<your_string>' | base64`: create a base64 encoded string.
+- But we want more than base64 encoding because anyone can reverse the base64 version and therefore we can't save that to version control. Also, since we might want to store our configuration into a long-term storage, we need to encrypt the value.
+- Possible solutions:
+    - `Cloud service providers` may have their own solution such as AWS Secrets Manager
+    - `SealedSecrets`, Kubernetes native solution
+    - `SOPS` to encrypt the secret.yaml file
+- We will use `SOPS` with the `age` encryption.
+- Steps are as follows:
+    - `age-keygen -o key.txt`: create a key-pair where public and private keys are stored.
+    - `sops --encrypt --age <YOUR_PUBLIC_KEY> --encrypted-regex '^(data)$' secret.yaml > secret.enc.yaml`: encrypts only the data field(s) in the *secret.yaml* file using SOPS and age, and writes the encrypted result to the *secret.enc.yaml* file.
+    - `export SOPS_AGE_KEY_FILE=$(pwd)/key.txt && sops --decrypt secret.enc.yaml > secret.yaml`: decrypt the encrypted file by exporting the key file in *SOPS_AGE_KEY_FILE* environment variable and run sops with the -—decrypt flag.
+    - `sops --decrypt secret.enc.yaml | kubectl apply -f -`: apply a secret yaml via piping directly (this helps avoid creating a plain *secret.yaml* file)
+- `ConfigMaps` are similar but the data doesn't have to be encoded and is not encrypted. ConfigMaps can be added to the container as a volume. By changing a value and applying the ConfigMap, the changes would be reflected in that volume.
