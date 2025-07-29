@@ -1,4 +1,5 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from dotenv import load_dotenv
 import os
 import urllib.request
 import base64
@@ -6,30 +7,35 @@ import time
 import sys
 import json
 
+
+load_dotenv()
+PORT = int(os.environ.get("PORT"))
+CACHE_TIME = int(os.environ.get("CACHE_TIME"))
+PICSUM_IMAGE_URL = os.environ.get("PICSUM_IMAGE_URL")
+
 IS_LOCAL = "--local" in sys.argv
-
 if IS_LOCAL:
-    CACHE_FILE = "./todo_app/todo_frontend/picsum_image.jpg"
-    BACKEND_URL = "http://localhost:8090"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    CACHED_IMAGE_NAME = os.environ.get("LOCAL_CACHED_IMAGE_NAME")
+    CACHED_IMAGE_FILE_PATH = os.path.join(BASE_DIR, CACHED_IMAGE_NAME)
+    BACKEND_URL = os.environ.get("LOCAL_BACKEND_URL")
 else:
-    CACHE_FILE = "/app/files/picsum_image.jpg"
-    BACKEND_URL = "http://todo-backend-svc:5678"
+    CACHED_IMAGE_FILE_PATH = os.environ.get("PROD_CACHED_IMAGE_FILE_PATH")
+    BACKEND_URL = os.environ.get("PROD_BACKEND_URL")
 
-CACHE_TIME = 600 # 10 minutes
-PORT = int(os.environ.get("PORT", 8080))
 
 def get_image():
     # Check if cache file exists and is fresh
     try:
-        if os.path.exists(CACHE_FILE):
-            mtime = os.path.getmtime(CACHE_FILE)
+        if os.path.exists(CACHED_IMAGE_FILE_PATH):
+            mtime = os.path.getmtime(CACHED_IMAGE_FILE_PATH)
             if time.time() - mtime < CACHE_TIME:
-                with open(CACHE_FILE, "rb") as f:
+                with open(CACHED_IMAGE_FILE_PATH, "rb") as f:
                     return f.read()
         # Otherwise, fetch new image and cache it
-        with urllib.request.urlopen("https://picsum.photos/1200") as response:
+        with urllib.request.urlopen(PICSUM_IMAGE_URL) as response:
             img_data = response.read()
-        with open(CACHE_FILE, "wb") as f:
+        with open(CACHED_IMAGE_FILE_PATH, "wb") as f:
             f.write(img_data)
         return img_data
     except Exception as e:
@@ -87,7 +93,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             else:
                 img_html = '<p>Error loading image.</p>'
             todos = fetch_todos()
-            if len(todos) == 1 and todos[0] == "No todos yet.":
+            if len(todos) == 1 and (todos[0] == "No todos yet." or todos[0] == "Could not fetch todos."):
                 todos[0] = ""
             todos_html = "".join(f"<li>{todo}</li>" for todo in todos)
 
