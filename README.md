@@ -88,3 +88,5 @@
     - `export SOPS_AGE_KEY_FILE=$(pwd)/key.txt && sops --decrypt secret.enc.yaml > secret.yaml`: decrypt the encrypted file by exporting the key file in *SOPS_AGE_KEY_FILE* environment variable and run sops with the -—decrypt flag.
     - `sops --decrypt secret.enc.yaml | kubectl apply -f -`: apply a secret yaml via piping directly (this helps avoid creating a plain *secret.yaml* file)
 - `ConfigMaps` are similar but the data doesn't have to be encoded and is not encrypted. ConfigMaps can be added to the container as a volume. By changing a value and applying the ConfigMap, the changes would be reflected in that volume.
+
+- [2.5](https://github.com/berkturetken/kubernetes-practices/tree/2.5/log_output)
