@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: project
+  name: todo-frontend-configmap
+data:
+  PORT: "8080"
+  CACHE_TIME: "600"
+  PICSUM_IMAGE_URL: "https://picsum.photos/1200"
+  PROD_CACHED_IMAGE_FILE_PATH: "/app/files/picsum_image.jpg"
+  PROD_BACKEND_URL: "http://todo-backend-svc:5678"

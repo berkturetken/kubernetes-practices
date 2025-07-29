@@ -19,7 +19,11 @@ spec:
           claimName: todo-app-claim
       containers:
       - name: todo-frontend
-        image: berkturetkenwartsila/todo_frontend:0.2
+        image: berkturetkenwartsila/todo_frontend:0.4
         volumeMounts:
         - name: todo-frontend-volume
           mountPath: /app/files
+        # configuring *all* key-value pairs in ConfigMap as (container) environment variables
+        envFrom:
+          - configMapRef:
+              name: todo-frontend-configmap
