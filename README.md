@@ -90,3 +90,4 @@
 - `ConfigMaps` are similar but the data doesn't have to be encoded and is not encrypted. ConfigMaps can be added to the container as a volume. By changing a value and applying the ConfigMap, the changes would be reflected in that volume.
 
 - [2.5](https://github.com/berkturetken/kubernetes-practices/tree/2.5/log_output)
+- [2.6](https://github.com/berkturetken/kubernetes-practices/tree/2.6/todo_app)
