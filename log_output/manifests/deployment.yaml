@@ -34,6 +34,7 @@ spec:
         - name: config-volume
           mountPath: /usr/src/app/info
           readOnly: true
+        # configuring *some* (container) environment variables using ConfigMap data
         env:
         - name: MESSAGE
           valueFrom:
