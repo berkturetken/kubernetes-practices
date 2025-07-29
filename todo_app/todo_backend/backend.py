@@ -1,11 +1,14 @@
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from dotenv import load_dotenv
 import os
 from urllib.parse import parse_qs
 import json
 
-PORT = int(os.environ.get("PORT", 8090))
 
+load_dotenv()
+PORT = int(os.environ.get("PORT"))
 todos = []
+
 
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
