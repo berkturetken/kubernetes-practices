@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-output-configmap
+  namespace: exercises
+data:
+  message: "hello world"
+  information.txt: |
+    This is the content of information.txt.
+    You can put any text you want here.
