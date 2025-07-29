@@ -1,8 +1,21 @@
 # Kubernetes Practices
 
-## Exercises
+> Releases can be found with the name `x.x` (e.g., 1.5) under chapters.
+
+## Table of Content
+- [Chapters](#chapters)
+    - [Chapter 1](#chapter-1)
+    - [Chapter 2](#chapter-2)
+    - [Chapter 3](#chapter-3)
+
+## Chapters
+
+### Chapter 1
+
+Just the *Getting started* chapter.
 
 ### Chapter 2
+
 - [1.1](https://github.com/berkturetken/kubernetes-practices/tree/1.1/log_output)
     - `k3d cluster create -a 2`: creates a Kubernetes cluster with 2 agent nodes
     - `k3d kubeconfig get k3s-default`: view the content of kubeconfig
@@ -47,6 +60,7 @@
 - [1.13](https://github.com/berkturetken/kubernetes-practices/tree/1.13/the_project)
 
 ### Chapter 3
+
 - Kubernetes includes a DNS service. Containers in a pod share the network. As such, every other container inside a pod is accessible from localhost. For communication between pods, a *Service* resource is used as they expose the Pods as a network service. Alternatively, each pod has an IP created by Kubernetes.
 - We can have a debugging `Pod` resource (do note that not a `Service`) which means we can go inside a pod and send a request to another pod (busybox is a good option for this purpose).
 - `kubectl exec -it todo-app-7784476879-mvhd7 -- sh`: Open a shell in a pod
@@ -91,3 +105,19 @@
 
 - [2.5](https://github.com/berkturetken/kubernetes-practices/tree/2.5/log_output)
 - [2.6](https://github.com/berkturetken/kubernetes-practices/tree/2.6/todo_app)
+
+- `StatefulSets` are similar to `Deployments` except they make sure that if a pod dies, the replacement is *identical, with the same network identity and name*.
+    - If a pod is scaled, each copy have its own storage.
+    - `StatefulSets` are for stateful applications and they are ideal for scaling apps that require persistent state.
+    = They ensure data safety by not deleting the associated volumes when the `StatefulSet` is deleted.
+    - `Deployment` creates pods using `ReplicaSet`.
+    - StatefulSet requires a Headless Service to be responsible for the network identity.
+        - Headless service with `clusterIp: None` instructs Kubernetes not to do proxying or load balancing but instead allows direct access to the Pods.
+    - If the containers are inside the same pod, they share the network.
+    - `StatefulSets` look like a `Deployment` resource but uses a `volumeClaimTemplate` to claim its own volume for each pod. `volumeClaimTemplate` also creates PVC for each replicas in the set.
+    - We can dynamically provision storage by specifying `storageClassName: local-path` in which K3s takes care of that for us. No need to create a PV for the volume.
+    - When we delete a `StatefulSet`, the volume will stay and bind back when we apply the `StatefulSet` again.
+    - `StatefulSet` creates separate volumes for all replicas.
+    - We can access directly to the pods with the headless service. Using its name would be enough since it resolves to its IP address.
+    - If you nslookup to the service, you will see that the service resolves to two (since we set two replicas) different IP addresses.
+    - Once again, the identities of the pods are permanent. In other words, if one of the pods dies, it is guaranteed to have the same name (when it is scheduled again) and it is still attached to the same volume.
