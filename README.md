@@ -125,3 +125,5 @@ Just the *Getting started* chapter.
         - `k run debug-shell --rm -it --image ubuntu:20.04 -n <your_namespace> -- bash`: use Ubuntu's base image instead
         - `k run busybox --rm -it --image busybox -n <your_namespace> -- sh`: use Ubuntu's base image instead
         - `k debug -it <pod-name> --image ubuntu:20.04 --target=<container-name>`: use a debugging container
+
+- [2.7](https://github.com/berkturetken/kubernetes-practices/tree/2.7/ping_pong)
