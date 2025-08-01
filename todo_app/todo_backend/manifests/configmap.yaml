@@ -5,3 +5,19 @@ metadata:
   name: todo-backend-configmap
 data:
   PORT: "8090"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: "todo_db"
+  POSTGRES_USER: "todo_user"
+  POSTGRES_PASSWORD: "todo_pass"
+  PROD_POSTGRES_HOST: "todo-db-svc"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: project
+  name: todo-db-configmap
+data:
+  POSTGRES_DB: "todo_db"
+  POSTGRES_USER: "todo_user"
+  POSTGRES_PASSWORD: "todo_pass"
+  PGDATA: "/var/lib/postgresql/data/todo-data"
