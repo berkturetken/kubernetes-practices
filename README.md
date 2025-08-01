@@ -127,3 +127,4 @@ Just the *Getting started* chapter.
         - `k debug -it <pod-name> --image ubuntu:20.04 --target=<container-name>`: use a debugging container
 
 - [2.7](https://github.com/berkturetken/kubernetes-practices/tree/2.7/ping_pong)
+- [2.8](https://github.com/berkturetken/kubernetes-practices/tree/2.8/todo_app)
