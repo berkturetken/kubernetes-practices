@@ -128,3 +128,4 @@ Just the *Getting started* chapter.
 
 - [2.7](https://github.com/berkturetken/kubernetes-practices/tree/2.7/ping_pong)
 - [2.8](https://github.com/berkturetken/kubernetes-practices/tree/2.8/todo_app)
+- [2.9](https://github.com/berkturetken/kubernetes-practices/tree/2.9/todo_app/todo_generator)
