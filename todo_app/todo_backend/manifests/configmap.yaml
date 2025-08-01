@@ -8,7 +8,7 @@ data:
   POSTGRES_PORT: "5432"
   POSTGRES_DB: "todo_db"
   POSTGRES_USER: "todo_user"
-  POSTGRES_PASSWORD: "todo_pass"
+  POSTGRES_PASSWORD: "todo_pass" # TODO: use Secret with SOPS here (see https://courses.mooc.fi/org/uh-cs/courses/devops-with-kubernetes/chapter-3/configuring-applications)
   PROD_POSTGRES_HOST: "todo-db-svc"
 ---
 apiVersion: v1
@@ -19,5 +19,5 @@ metadata:
 data:
   POSTGRES_DB: "todo_db"
   POSTGRES_USER: "todo_user"
-  POSTGRES_PASSWORD: "todo_pass"
+  POSTGRES_PASSWORD: "todo_pass" # TODO: use Secret with SOPS here
   PGDATA: "/var/lib/postgresql/data/todo-data"
