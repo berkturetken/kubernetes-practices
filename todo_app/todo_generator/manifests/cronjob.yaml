@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wiki-todo-generator
+  namespace: project
+spec:
+  schedule: "0 0,12 * * *"  # Run at midnight and noon
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: wiki-todo-generator
+            image: berkturetkenwartsila/wiki_todo_generator:0.1
+            envFrom:
+            - configMapRef:
+                name: todo-backend-configmap
+          restartPolicy: OnFailure
