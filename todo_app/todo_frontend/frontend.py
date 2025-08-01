@@ -47,8 +47,10 @@ def fetch_todos():
         with urllib.request.urlopen(f"{BACKEND_URL}/todos") as response:
             # Parse JSON array from backend
             return json.loads(response.read().decode("utf-8"))
-    except Exception:
-        return ["Could not fetch todos."]
+    except Exception as e:
+        error_msg = f"Backend connection error: Unable to connect to {BACKEND_URL}/todos"
+        print(f"Error fetching todos: {e}")
+        return [error_msg]
 
 def prepare_basic_html(img_html, todos_html):
     return f"""
@@ -93,9 +95,12 @@ class SimpleHandler(BaseHTTPRequestHandler):
             else:
                 img_html = '<p>Error loading image.</p>'
             todos = fetch_todos()
-            if len(todos) == 1 and (todos[0] == "No todos yet." or todos[0] == "Could not fetch todos."):
-                todos[0] = ""
-            todos_html = "".join(f"<li>{todo}</li>" for todo in todos)
+            if todos and todos[0].startswith("Backend connection error"):
+                todos_html = f'<div style="color: red; padding: 10px; background-color: #ffe6e6; border: 1px solid #ff8080; border-radius: 5px;">{todos[0]}</div>'
+            else:
+                if len(todos) == 1 and (todos[0] == "No todos yet." or todos[0] == "Could not fetch todos."):
+                    todos[0] = ""
+                todos_html = "".join(f"<li>{todo}</li>" for todo in todos)
 
             html = prepare_basic_html(img_html, todos_html)
             self.send_response(200)

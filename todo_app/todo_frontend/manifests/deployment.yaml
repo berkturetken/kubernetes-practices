@@ -19,7 +19,7 @@ spec:
           claimName: todo-app-claim
       containers:
       - name: todo-frontend
-        image: berkturetkenwartsila/todo_frontend:0.4
+        image: berkturetkenwartsila/todo_frontend:0.5
         volumeMounts:
         - name: todo-frontend-volume
           mountPath: /app/files
