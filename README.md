@@ -106,18 +106,22 @@ Just the *Getting started* chapter.
 - [2.5](https://github.com/berkturetken/kubernetes-practices/tree/2.5/log_output)
 - [2.6](https://github.com/berkturetken/kubernetes-practices/tree/2.6/todo_app)
 
-- `StatefulSets` are similar to `Deployments` except they make sure that if a pod dies, the replacement is *identical, with the same network identity and name*.
+- `StatefulSets` are similar to `Deployments` except they make sure that if a pod dies, the replacement is *identical with the same network identity and name*.
     - If a pod is scaled, each copy have its own storage.
     - `StatefulSets` are for stateful applications and they are ideal for scaling apps that require persistent state.
-    = They ensure data safety by not deleting the associated volumes when the `StatefulSet` is deleted.
+    - They ensure data safety by not deleting the associated volumes when the `StatefulSet` is deleted.
     - `Deployment` creates pods using `ReplicaSet`.
-    - StatefulSet requires a Headless Service to be responsible for the network identity.
+    - `StatefulSet` requires a *Headless Service* to be responsible for the network identity.
         - Headless service with `clusterIp: None` instructs Kubernetes not to do proxying or load balancing but instead allows direct access to the Pods.
     - If the containers are inside the same pod, they share the network.
     - `StatefulSets` look like a `Deployment` resource but uses a `volumeClaimTemplate` to claim its own volume for each pod. `volumeClaimTemplate` also creates PVC for each replicas in the set.
     - We can dynamically provision storage by specifying `storageClassName: local-path` in which K3s takes care of that for us. No need to create a PV for the volume.
     - When we delete a `StatefulSet`, the volume will stay and bind back when we apply the `StatefulSet` again.
     - `StatefulSet` creates separate volumes for all replicas.
-    - We can access directly to the pods with the headless service. Using its name would be enough since it resolves to its IP address.
-    - If you nslookup to the service, you will see that the service resolves to two (since we set two replicas) different IP addresses.
+    - We can directly access to the pods with the headless service. Using its name would be enough since it resolves to the pod's IP address.
+    - If you nslookup to the service, you will see that the service resolves to two (if we set two replicas) different IP addresses.
     - Once again, the identities of the pods are permanent. In other words, if one of the pods dies, it is guaranteed to have the same name (when it is scheduled again) and it is still attached to the same volume.
+    - `k run debug-shell --rm -it --image nicolaka/netshoot -n <your_namespace> -- bash`: creates a temporary debugging pod in the Kubernetes cluster. Good for troubleshooting network connectivity issues, examining cluster DNS resolution, running diagnostic tools not available in the application containers, etc. Note that this image comes with many networking tools pre-installed. Other options might be the followings:
+        - `k run debug-shell --rm -it --image ubuntu:20.04 -n <your_namespace> -- bash`: use Ubuntu's base image instead
+        - `k run busybox --rm -it --image busybox -n <your_namespace> -- sh`: use Ubuntu's base image instead
+        - `k debug -it <pod-name> --image ubuntu:20.04 --target=<container-name>`: use a debugging container
