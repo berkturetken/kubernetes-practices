@@ -3,10 +3,42 @@
 > Releases can be found with the name `x.x` (e.g., 1.5) under chapters.
 
 ## Table of Content
+- [Releases](#releases)
 - [Chapters](#chapters)
     - [Chapter 1](#chapter-1)
     - [Chapter 2](#chapter-2)
     - [Chapter 3](#chapter-3)
+
+
+## Releases
+
+- [2.10](https://github.com/berkturetken/kubernetes-practices/tree/2.10/todo_app)
+- [2.9](https://github.com/berkturetken/kubernetes-practices/tree/2.9/todo_app/todo_generator)
+- [2.8](https://github.com/berkturetken/kubernetes-practices/tree/2.8/todo_app)
+- [2.7](https://github.com/berkturetken/kubernetes-practices/tree/2.7/ping_pong)
+- [2.6](https://github.com/berkturetken/kubernetes-practices/tree/2.6/todo_app)
+- [2.5](https://github.com/berkturetken/kubernetes-practices/tree/2.5/log_output)
+- [2.4](https://github.com/berkturetken/kubernetes-practices/tree/2.4/todo_app)
+- [2.3](https://github.com/berkturetken/kubernetes-practices/tree/2.3/log_output)
+- [2.2](https://github.com/berkturetken/kubernetes-practices/tree/2.2/todo_app)
+- [2.1](https://github.com/berkturetken/kubernetes-practices/tree/2.1/log_output)
+
+<br>
+
+- [1.13](https://github.com/berkturetken/kubernetes-practices/tree/1.13/the_project)
+- [1.12](https://github.com/berkturetken/kubernetes-practices/tree/1.12/the_project)
+- [1.11](https://github.com/berkturetken/kubernetes-practices/tree/1.11)
+- [1.10](https://github.com/berkturetken/kubernetes-practices/tree/1.10/log_output)
+- [1.9](https://github.com/berkturetken/kubernetes-practices/tree/1.9/ping_pong)
+- [1.8](https://github.com/berkturetken/kubernetes-practices/tree/1.8/the_project)
+- [1.7](https://github.com/berkturetken/kubernetes-practices/tree/1.7/log_output)
+- [1.6](https://github.com/berkturetken/kubernetes-practices/tree/1.6/the_project)
+- [1.5](https://github.com/berkturetken/kubernetes-practices/tree/1.5/the_project)
+- [1.4](https://github.com/berkturetken/kubernetes-practices/tree/1.4/the_project)
+- [1.3](https://github.com/berkturetken/kubernetes-practices/tree/1.3/log_output)
+- [1.2](https://github.com/berkturetken/kubernetes-practices/tree/1.2/the_project)
+- [1.1](https://github.com/berkturetken/kubernetes-practices/tree/1.1/log_output)
+
 
 ## Chapters
 
