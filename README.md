@@ -154,3 +154,5 @@ Just the *Getting started* chapter.
         - Use LogQL within Grafana (you can also utilize LogCLI) to explore.
         - Alert on your logs by sending them to a Prometheus Alertmanager.
     - Instead of Promtail, we should use Grafana Alloy since commercial support of Promtail will end on Feb 28, 2026. Subsequently, Promtail will reach its EOL on Mar 2, 2026, meaning that afterwards no future support or updates will be provided.
+
+- [2.10](https://github.com/berkturetken/kubernetes-practices/tree/2.10/todo_app)
