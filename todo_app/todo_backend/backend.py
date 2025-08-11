@@ -93,6 +93,7 @@ class SimpleHandler(BaseHTTPRequestHandler):
             else:
                 self.send_response(400)
                 self.end_headers()
+                print("Todo must be 1-140 characters long. You exceeded the limit.")
                 self.wfile.write(b'Todo must be 1-140 characters long.\n')
         else:
             self.send_response(404)
