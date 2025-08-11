@@ -129,3 +129,28 @@ Just the *Getting started* chapter.
 - [2.7](https://github.com/berkturetken/kubernetes-practices/tree/2.7/ping_pong)
 - [2.8](https://github.com/berkturetken/kubernetes-practices/tree/2.8/todo_app)
 - [2.9](https://github.com/berkturetken/kubernetes-practices/tree/2.9/todo_app/todo_generator)
+
+- Monitoring
+    - We utilize `Prometheus` to monitor the cluster and `Grafana` to view the data.
+    - `Helm`: the package manager for Kubernetes. We can manage the applications with `Helm` more easily.
+        - Uses a packaging format called *charts* to define the dependencies of an application.
+        - Helm charts include information for the version of the chart, the requirements of the application, such as the Kubernetes version as well as other charts that it may depend on.
+    - We can add some official charts to the repo:
+        - `helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`
+        - `helm repo add stable https://charts.helm.sh/stable`
+        - `helm repo update`
+    - Install `kube-prometheus-stack`:
+        - `kubectl create namespace prometheus`: By default, `kube-prometheus-stack` puts everything to the *default* namespace which we want to avoid.
+        - `helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus`
+        - This installs core components of the `kube-prometheus-stack`, a collection of Kubernetes manifests, Grafana dashboards, and Prometheus rules combined with documentation and scripts to provide easy to operate end-to-end Kubernetes cluster monitoring with Prometheus using the Prometheus operator.
+    - Install `Loki` which is a log aggregiation system so that we can see the application logs.
+    - `Loki` comes with `Promtail` which is a logs collector built specifically for Loki. In other words, Promtail ships the contents of local logs to private Grafana Loki instance (or Grafana Cloud). It primarily does the following three things:
+        - Discovers targets.
+        - Attaches labels to log streams.
+        - Pushes them to the Loki instance.
+    - Overall, how does Grafana Loki work?
+        - Pull in any logs with Promtail.
+        - Store the logs in Loki.
+        - Use LogQL within Grafana (you can also utilize LogCLI) to explore.
+        - Alert on your logs by sending them to a Prometheus Alertmanager.
+    - Instead of Promtail, we should use Grafana Alloy since commercial support of Promtail will end on Feb 28, 2026. Subsequently, Promtail will reach its EOL on Mar 2, 2026, meaning that afterwards no future support or updates will be provided.
