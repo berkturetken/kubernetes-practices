@@ -1,0 +1,36 @@
+# Basic Alloy settings
+alloy:
+  configMap:
+    create: false
+    name: alloy-config
+    key: config.river
+  
+  # Basic settings
+  enableHttpServerPort: true
+  listenAddr: 0.0.0.0
+  listenPort: 12345
+  
+  # Mount logs from host
+  mounts:
+    varlog: true
+    dockercontainers: true
+
+# Image settings
+image:
+  repository: grafana/alloy
+  pullPolicy: IfNotPresent
+
+# Use DaemonSet to collect logs from all nodes
+controller:
+  type: 'daemonset'
+  
+# Security settings
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+
+# Config reload when ConfigMap changes
+configReloader:
+  enabled: true
