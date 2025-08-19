@@ -8,6 +8,7 @@
     - [Chapter 1](#chapter-1)
     - [Chapter 2](#chapter-2)
     - [Chapter 3](#chapter-3)
+- [Info about Clusters and Contexts](#info-about-clusters-and-contexts)
 
 
 ## Releases
@@ -188,3 +189,18 @@ Just the *Getting started* chapter.
     - Instead of Promtail, we should use Grafana Alloy since commercial support of Promtail will end on Feb 28, 2026. Subsequently, Promtail will reach its EOL on Mar 2, 2026, meaning that afterwards no future support or updates will be provided.
 
 - [2.10](https://github.com/berkturetken/kubernetes-practices/tree/2.10/todo_app)
+
+## Info about Clusters and Contexts
+
+- A *cluster* entry defines how to connect to a specific Kubernetes API server. It includes a server address (URL), CA and other connection details.
+- A *context* is a named set of access parameters that tells kubectl which cluster, which user and optionally which namespace to use by default. It acts as a shortcut for switching between different clusters, users and namespaces.
+- In short, *cluster* is all about where to connect and *context* is all about how to connect.
+- Since I have many clusters such as k3d-edge-local, minikube, EKS clusters; it is better to list all contexts that I have: `k config get-contexts`.
+- Set the context for this project's cluster which is the default one: `k config use-context k3d-k3s-default`
+- Check your cluster is running: `k3d cluster list`. An example output would be:
+    ```
+    NAME          SERVERS   AGENTS   LOADBALANCER
+    k3s-default   1/1       2/2      true
+    ```
+- If it is not running, start the cluster: `k3d cluster start <cluster_name>`
+- Check the pods in all namespaces and verify that you're in the correct one: `k get po --all-namespaces`
