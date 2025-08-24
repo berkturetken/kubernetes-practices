@@ -38,7 +38,7 @@ spec:
       name: postgres-data-storage
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: local-path # dynamically provisioned storage provided by K3s so no need to manually create PV for the volume
+      # storageClassName: local-path # dynamically provisioned storage provided by K3s so no need to manually create PV for the volume
       resources:
         requests:
           storage: 100Mi
