@@ -14,6 +14,7 @@
 
 ## Releases
 
+- [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong)
 - [3.1](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
 
 <br>
@@ -207,6 +208,7 @@ Just the *Getting started* chapter.
     - Create a cluster: `gcloud container clusters create <cluster_name> --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro` - Accept the enabling of Kubernetes Engine API so that it will be used in the project. Or use the following command: `gcloud services enable container.googleapis.com`
 
 - [3.1](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
+- [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong) -- note that I didn't deploy the log_output application with this release!
 
 ## Info about Clusters and Contexts
 
