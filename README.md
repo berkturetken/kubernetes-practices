@@ -201,8 +201,8 @@ Just the *Getting started* chapter.
     - Install Google Cloud SDK by following the instructions [here](https://cloud.google.com/sdk/install).
     - Set the previously created project to be used by the `gcloud config set project <project_name>-<project_id>` command. This can also be achieved in the previous step.
     - Create a cluster: `gcloud container clusters create <cluster_name> --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro` - Accept the enabling of Kubernetes Engine API so that it will be used in the project. Or use the following command: `gcloud services enable container.googleapis.com`
-    - 
 
+- [2.10](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
 
 ## Info about Clusters and Contexts
 
