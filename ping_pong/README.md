@@ -24,4 +24,5 @@
     - `k apply -f statefulset.yaml`
     - `k apply -f service.yaml`
     - `k apply -f deployment.yaml`
-- It might take some time to get an External IP for the service. Once you have it, `http://<external_ip>:4567/ping` and `http://<external_ip>:4567/pingpong` will start working as it was working with a local Kubernetes cluster.
+- It might take some time to get an External IP for the service. Once you have it, `http://<external_ip>:4567/pings` and `http://<external_ip>:4567/pingpong` will start working as it was working with a local Kubernetes cluster. This is true when we don't have Ingress configured and actually Google provisions a load balancer for us.
+- The endpoints are `http://<external_ip>:80/pings` and `http://<external_ip>:80/pingpong` where `external_ip` is the one shown after running the `k get ing -n exercises` command.
