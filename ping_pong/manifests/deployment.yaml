@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ping-pong
-        image: berkturetkenwartsila/ping_pong:0.9
+        image: berkturetkenwartsila/ping_pong:0.10
         env:
         - name: POSTGRES_DB
           value: ping_pong_db

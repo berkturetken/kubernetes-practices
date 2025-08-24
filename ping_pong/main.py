@@ -67,6 +67,10 @@ class SimpleHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(response.encode("utf-8"))
+        elif self.path == "/":
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
         elif self.path == '/pings':
             pong = get_pong()
             self.send_response(200)
