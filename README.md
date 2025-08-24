@@ -8,6 +8,7 @@
     - [Chapter 1](#chapter-1)
     - [Chapter 2](#chapter-2)
     - [Chapter 3](#chapter-3)
+    - [Chapter 4](#chapter-4)
 - [Info about Clusters and Contexts](#info-about-clusters-and-contexts)
 
 
@@ -189,6 +190,19 @@ Just the *Getting started* chapter.
     - Instead of Promtail, we should use Grafana Alloy since commercial support of Promtail will end on Feb 28, 2026. Subsequently, Promtail will reach its EOL on Mar 2, 2026, meaning that afterwards no future support or updates will be provided.
 
 - [2.10](https://github.com/berkturetken/kubernetes-practices/tree/2.10/todo_app)
+
+### Chapter 4
+
+- Until now, we have used Kubernetes distribution K3s using Docker container via k3d. But in production environments, maintaining a Kubernetes cluster can be a burden.
+- If the company/organization has the hardware, then it makes sense to manage the Kubernetes cluster.
+- Set up the Google Cloud Platform:
+    - Use the free 300$ credits by opening a new account.
+    - Create a new project in the `Resource` page.
+    - Install Google Cloud SDK by following the instructions [here](https://cloud.google.com/sdk/install).
+    - Set the previously created project to be used by the `gcloud config set project <project_name>-<project_id>` command. This can also be achieved in the previous step.
+    - Create a cluster: `gcloud container clusters create <cluster_name> --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro` - Accept the enabling of Kubernetes Engine API so that it will be used in the project. Or use the following command: `gcloud services enable container.googleapis.com`
+    - 
+
 
 ## Info about Clusters and Contexts
 
