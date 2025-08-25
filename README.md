@@ -14,6 +14,7 @@
 
 ## Releases
 
+- [3.3](https://github.com/berkturetken/kubernetes-practices/tree/3.3/ping_pong)
 - [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong)
 - [3.1](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
 
@@ -219,6 +220,7 @@ Just the *Getting started* chapter.
     - The routing itself does not happen in Gateway but is rather done with HTTPRoute resources. See [the route.yaml file](./ping_pong/manifests/route.yaml).
     - Do not forget to set the Service port type to `ClusterIP`. Check the gateway object (`k get gateway <gateway_name> -n <namespace>`) and the `address` field will give you the IP address of the cluster in which you can access to the application.
 
+- [3.3](https://github.com/berkturetken/kubernetes-practices/tree/3.3/ping_pong)
 
 ## Info about Clusters and Contexts
 
