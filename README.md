@@ -210,6 +210,16 @@ Just the *Getting started* chapter.
 - [3.1](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
 - [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong) -- note that I didn't deploy the log_output application with this release!
 
+- Gateway API
+    - Ingress has been the primary solution for external traffic routing in Kubernetes. But now, there is this new Gateway API which offers a next-generation solution for routing.
+    - It makes easier to handle complex routing and traffic management scenarios.
+    - First, enable it to the cluster: `gcloud container clusters update <cluster_name> --location=europe-north1-b --gateway-api=standard`
+    - At the top, we have GatewayClass which is a resource within Gateway API provided by infrastructure providers that defines a type of Gateway. Specifies the underlying infrastructure or controller that will be used to implement the Gateway.
+    - As a cluster admin, our work starts with defining the Gateway which defines where and how the load balancers listen for traffic to our cluster. It is configured based on GatewayClass and selects the load balancer type to use. Also, it specifies details like which IP addresses and hostnames to listen on or which ports to use. See [the gateway.yaml file](./ping_pong/manifests/gateway.yaml) for an example configuration.
+    - The routing itself does not happen in Gateway but is rather done with HTTPRoute resources. See [the route.yaml file](./ping_pong/manifests/route.yaml).
+    - Do not forget to set the Service port type to `ClusterIP`. Check the gateway object (`k get gateway <gateway_name> -n <namespace>`) and the `address` field will give you the IP address of the cluster in which you can access to the application.
+
+
 ## Info about Clusters and Contexts
 
 - A *cluster* entry defines how to connect to a specific Kubernetes API server. It includes a server address (URL), CA and other connection details.
