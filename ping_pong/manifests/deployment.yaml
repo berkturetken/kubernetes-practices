@@ -14,18 +14,18 @@ spec:
         app: ping-pong
     spec:
       containers:
-      - name: ping-pong
-        image: berkturetkenwartsila/ping_pong:0.16
-        env:
-        - name: POSTGRES_DB
-          value: ping_pong_db
-        - name: POSTGRES_USER
-          value: ping_pong_user
-        - name: POSTGRES_PASSWORD
-          value: ping_pong_pass
-        - name: PROD_POSTGRES_HOST
-          value: postgres-svc
-        - name: PORT
-          value: "9100"
-        - name: POSTGRES_PORT
-          value: "5432"
+        - name: ping-pong
+          image: berkturetkenwartsila/ping_pong:0.16
+          env:
+            - name: POSTGRES_DB
+              value: ping_pong_db
+            - name: POSTGRES_USER
+              value: ping_pong_user
+            - name: POSTGRES_PASSWORD
+              value: ping_pong_pass
+            - name: PROD_POSTGRES_HOST
+              value: postgres-svc
+            - name: PORT
+              value: "9100"
+            - name: POSTGRES_PORT
+              value: "5432"

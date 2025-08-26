@@ -5,19 +5,19 @@ metadata:
   name: shared-ingress
 spec:
   rules:
-  - http:
-      paths:
-      - path: /pingpong # could not make it work with rewrite-target and without changing the application code for some reason
-        pathType: Prefix
-        backend:
-          service:
-            name: ping-pong-svc
-            port:
-              number: 4567
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: log-output-svc
-            port:
-              number: 3456
+    - http:
+        paths:
+          - path: /pingpong # could not make it work with rewrite-target and without changing the application code for some reason
+            pathType: Prefix
+            backend:
+              service:
+                name: ping-pong-svc
+                port:
+                  number: 4567
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: log-output-svc
+                port:
+                  number: 3456

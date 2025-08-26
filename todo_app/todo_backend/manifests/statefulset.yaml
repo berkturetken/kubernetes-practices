@@ -15,23 +15,23 @@ spec:
         app: todo-db
     spec:
       containers:
-      - name: postgres
-        image: postgres:16
-        envFrom:
-          - configMapRef:
-              name: todo-db-configmap
-        ports:
-          - containerPort: 5432
-        volumeMounts:
-          - name: todo-data-storage
-            mountPath: /var/lib/postgresql/data
-            subPath: todo-data
+        - name: postgres
+          image: postgres:16
+          envFrom:
+            - configMapRef:
+                name: todo-db-configmap
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: todo-data-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: todo-data
   volumeClaimTemplates:
-  - metadata:
-      name: todo-data-storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: local-path
-      resources:
-        requests:
-          storage: 100Mi
+    - metadata:
+        name: todo-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 100Mi

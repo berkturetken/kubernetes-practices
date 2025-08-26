@@ -8,7 +8,7 @@ spec:
   selector:
     app: log-output
   ports:
-  - name: http
-    protocol: TCP
-    port: 3456
-    targetPort: 9000
+    - name: http
+      protocol: TCP
+      port: 3456
+      targetPort: 9000

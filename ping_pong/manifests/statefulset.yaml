@@ -15,30 +15,30 @@ spec:
         app: ping-pong-postgres-db
     spec:
       containers:
-      - name: postgres
-        image: postgres:16.9
-        env:
-        - name: POSTGRES_DB
-          value: ping_pong_db
-        - name: POSTGRES_USER
-          value: ping_pong_user
-        - name: POSTGRES_PASSWORD
-          value: ping_pong_pass
-        - name: PGDATA
-          value: /var/lib/postgresql/data/postgres-data # without this, it might try to write to the default location which might conflict with how Kubernetes mounts the volume
-        ports:
-          - name: web
-            containerPort: 5432
-        volumeMounts:
-          - name: postgres-data-storage
-            mountPath: /var/lib/postgresql/data
-            subPath: postgres-data # prevents the entire PV replacing the mount path
+        - name: postgres
+          image: postgres:16.9
+          env:
+            - name: POSTGRES_DB
+              value: ping_pong_db
+            - name: POSTGRES_USER
+              value: ping_pong_user
+            - name: POSTGRES_PASSWORD
+              value: ping_pong_pass
+            - name: PGDATA
+              value: /var/lib/postgresql/data/postgres-data # without this, it might try to write to the default location which might conflict with how Kubernetes mounts the volume
+          ports:
+            - name: web
+              containerPort: 5432
+          volumeMounts:
+            - name: postgres-data-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres-data # prevents the entire PV replacing the mount path
   volumeClaimTemplates:
-  - metadata:
-      name: postgres-data-storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      # storageClassName: local-path # dynamically provisioned storage provided by K3s so no need to manually create PV for the volume
-      resources:
-        requests:
-          storage: 100Mi
+    - metadata:
+        name: postgres-data-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        # storageClassName: local-path # dynamically provisioned storage provided by K3s so no need to manually create PV for the volume
+        resources:
+          requests:
+            storage: 100Mi

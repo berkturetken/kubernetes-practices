@@ -4,12 +4,12 @@ alloy:
     create: false
     name: alloy-config
     key: config.river
-  
+
   # Basic settings
   enableHttpServerPort: true
   listenAddr: 0.0.0.0
   listenPort: 12345
-  
+
   # Mount logs from host
   mounts:
     varlog: true
@@ -22,8 +22,8 @@ image:
 
 # Use DaemonSet to collect logs from all nodes
 controller:
-  type: 'daemonset'
-  
+  type: "daemonset"
+
 # Security settings
 rbac:
   create: true

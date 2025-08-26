@@ -7,9 +7,9 @@ metadata:
     app: postgres
 spec:
   ports:
-  - port: 7654
-    targetPort: 5432
-    name: postgres
+    - port: 7654
+      targetPort: 5432
+      name: postgres
   clusterIP: None
   selector:
     app: todo-db

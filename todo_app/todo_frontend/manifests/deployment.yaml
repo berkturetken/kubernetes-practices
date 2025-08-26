@@ -14,16 +14,16 @@ spec:
         app: todo-frontend
     spec:
       volumes:
-      - name: todo-frontend-volume
-        persistentVolumeClaim:
-          claimName: todo-app-claim
-      containers:
-      - name: todo-frontend
-        image: berkturetkenwartsila/todo_frontend:0.5
-        volumeMounts:
         - name: todo-frontend-volume
-          mountPath: /app/files
-        # configuring *all* key-value pairs in ConfigMap as (container) environment variables
-        envFrom:
-          - configMapRef:
-              name: todo-frontend-configmap
+          persistentVolumeClaim:
+            claimName: todo-app-claim
+      containers:
+        - name: todo-frontend
+          image: berkturetkenwartsila/todo_frontend:0.5
+          volumeMounts:
+            - name: todo-frontend-volume
+              mountPath: /app/files
+          # configuring *all* key-value pairs in ConfigMap as (container) environment variables
+          envFrom:
+            - configMapRef:
+                name: todo-frontend-configmap

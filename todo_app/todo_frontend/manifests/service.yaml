@@ -10,8 +10,8 @@ spec:
   selector:
     app: todo-frontend
   ports:
-  - name: http
-    # nodePort: 30080   # the port that is available outside. Value for nodePort must be between 30000 and 32767
-    protocol: TCP
-    port: 2345          # the port that is available to the cluster
-    targetPort: 8080    # target port
+    - name: http
+      # nodePort: 30080   # the port that is available outside. Value for nodePort must be between 30000 and 32767
+      protocol: TCP
+      port: 2345 # the port that is available to the cluster
+      targetPort: 8080 # target port

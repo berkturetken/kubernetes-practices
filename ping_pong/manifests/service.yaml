@@ -8,7 +8,7 @@ spec:
   selector:
     app: ping-pong
   ports:
-  - name: http
-    protocol: TCP
-    port: 4567
-    targetPort: 9100
+    - name: http
+      protocol: TCP
+      port: 4567
+      targetPort: 9100

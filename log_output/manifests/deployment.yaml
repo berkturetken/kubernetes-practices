@@ -14,30 +14,30 @@ spec:
         app: log-output
     spec:
       volumes:
-      - name: shared-log-output
-        persistentVolumeClaim:
-          claimName: log-output-claim
-      - name: config-volume
-        configMap:
-          name: log-output-configmap
-      containers:
-      - name: random-string-generator
-        image: berkturetkenwartsila/random_string_generator:0.4
-        volumeMounts:
         - name: shared-log-output
-          mountPath: /usr/src/app/files
-      - name: random-string-provider
-        image: berkturetkenwartsila/random_string_provider:0.4
-        volumeMounts:
-        - name: shared-log-output
-          mountPath: /usr/src/app/files
+          persistentVolumeClaim:
+            claimName: log-output-claim
         - name: config-volume
-          mountPath: /usr/src/app/info
-          readOnly: true
-        # configuring *some* (container) environment variables using ConfigMap data
-        env:
-        - name: MESSAGE
-          valueFrom:
-            configMapKeyRef:
-              name: log-output-configmap
-              key: message
+          configMap:
+            name: log-output-configmap
+      containers:
+        - name: random-string-generator
+          image: berkturetkenwartsila/random_string_generator:0.4
+          volumeMounts:
+            - name: shared-log-output
+              mountPath: /usr/src/app/files
+        - name: random-string-provider
+          image: berkturetkenwartsila/random_string_provider:0.4
+          volumeMounts:
+            - name: shared-log-output
+              mountPath: /usr/src/app/files
+            - name: config-volume
+              mountPath: /usr/src/app/info
+              readOnly: true
+          # configuring *some* (container) environment variables using ConfigMap data
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-output-configmap
+                  key: message
