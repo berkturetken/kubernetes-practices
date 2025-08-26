@@ -18,7 +18,6 @@ else:
     HOST = os.environ.get("PROD_POSTGRES_HOST")
 
 def get_db_conn():
-    print("You hit the db conn function.")
     return psycopg2.connect(
         dbname=DB_NAME,
         user=DB_USER,
@@ -60,17 +59,17 @@ init_db()
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         global pong
-        if self.path == '/pingpong':
+        if self.path == "/": # required for health check
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
+        elif self.path == '/send-ping':
             increment_pong()
             response = "Executed successfully."
             self.send_response(200)
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(response.encode("utf-8"))
-        elif self.path == "/":
-            self.send_response(200)
-            self.end_headers()
-            self.wfile.write(b"OK")
         elif self.path == '/pings':
             pong = get_pong()
             self.send_response(200)
