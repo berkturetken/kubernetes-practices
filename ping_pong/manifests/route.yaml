@@ -5,12 +5,25 @@ metadata:
   name: ping-pong-route
 spec:
   parentRefs:
-  - name: ping-pong-gateway
+    - name: ping-pong-gateway
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: ping-pong-svc
-      port: 4567
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /pingpong
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /send-ping
+      backendRefs:
+        - name: ping-pong-svc
+          port: 4567
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: ping-pong-svc
+          port: 4567
