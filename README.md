@@ -209,9 +209,20 @@ Just the _Getting started_ chapter.
   - Create a new project in the `Resource` page.
   - Install Google Cloud SDK by following the instructions [here](https://cloud.google.com/sdk/install).
   - Set the previously created project to be used by the `gcloud config set project <project_name>-<project_id>` command. This can also be achieved in the previous step.
-  - Create a cluster: `gcloud container clusters create <cluster_name> --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro` - Accept the enabling of Kubernetes Engine API so that it will be used in the project. Or use the following command: `gcloud services enable container.googleapis.com`
+  - Create a cluster: `gcloud container clusters create <cluster_name> --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro` -
+    Accept the enabling of Kubernetes Engine API so that it will be used in the project. Or use the following command: `gcloud services enable container.googleapis.com`
+
+- Persisting data in GKE
+
+  - GKE automatically provisions persistent disk for PVCs so no need to set the storage class. See [the link](https://github.com/berkturetken/kubernetes-practices/commit/2b258e73a24f99ad13a8617671f3beb4c43be721).
 
 - [3.1](https://github.com/berkturetken/kubernetes-practices/tree/3.1/ping_pong)
+
+- From Service to Ingress
+
+  - Services allow us to define L4 load balancer on Google Cloud Services which corresponds to TCP/UDP traffic. For advanced traffic rules, we need to use L7 load balancers which can be created either by an Ingress or Gateway.
+  - `NodePort` type service is required with an Ingress in GKE. Even though it's `NodePort`, GKE does not expose it outside the cluster.
+
 - [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong) -- note that I didn't deploy the log_output application with this release!
 
 - Gateway API
