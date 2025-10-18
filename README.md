@@ -238,6 +238,14 @@ Just the _Getting started_ chapter.
 - [3.3](https://github.com/berkturetken/kubernetes-practices/tree/3.3/ping_pong)
 - [3.4](https://github.com/berkturetken/kubernetes-practices/tree/3.4/ping_pong)
 
+- Kustomize
+  - Applying multiple files like we have been doing so far can get quite bothersome. We could also do the following: `k apply -f manifests/`
+  - But let's focus on Kustomize! Kustomize is baked into kubectl.
+  - We use Kustomize to define which files are meaningful for Kubernetes.
+  - Place the _kustomization.yaml_ file to the root of the project and now we can deploy with the following command: `k apply -k .` With one command, we're done with the deployment!
+  - Note that the k kustomize . command shows what Kustomize would do without applying it to the cluster.
+  - A good Kustomization documentation: https://itnext.io/kubernetes-kustomize-cheat-sheet-8e2d31b74d8f
+
 ## Info about Clusters and Contexts
 
 - A _cluster_ entry defines how to connect to a specific Kubernetes API server. It includes a server address (URL), CA and other connection details.
@@ -252,3 +260,11 @@ Just the _Getting started_ chapter.
   ```
 - If it is not running, start the cluster: `k3d cluster start <cluster_name>`
 - Check the pods in all namespaces and verify that you're in the correct one: `k get po --all-namespaces`
+
+## Info about Building and Pushing Docker Images
+
+- Build a Docker image for AMD64/x86_64 architecture when you're in the application folder: `docker build --platform linux/amd64 -t <dockerhub-username>/<repository-name>:<version> .`
+  - For example, `docker build --platform linux/amd64 -t berkturetkenwartsila/dummy_website:0.2 .`
+  - Note that my macOS machine uses an Apple Silicon (i.e., ARM64 architecture) and it might cause issues since there's a platform/architecture mismatch between the Docker image I built on my machine and where it's running (e.g., GKE cluster).
+- Push the image: `docker push <dockerhub-username>/<repository-name>:<version>`
+  - For example, `docker push berkturetkenwartsila/dummy_website:0.2`
