@@ -108,29 +108,26 @@ jobs:
       - name: Prepare branch-specific kustomization
         working-directory: ./todo_app
         run: |
-          # Create overlay directory structure
-          mkdir -p overlays/${{ env.NAMESPACE }}
-
-          # Create kustomization.yaml that references the base
-          cat > overlays/${{ env.NAMESPACE }}/kustomization.yaml <<EOF
+          # Create kustomization.yaml in the todo_app directory
+          cat > kustomization-${{ env.NAMESPACE }}.yaml <<EOF
           apiVersion: kustomize.config.k8s.io/v1beta1
           kind: Kustomization
 
           namespace: ${{ env.NAMESPACE }}
 
           resources:
-            - ../../todo_backend/manifests/configmap.yaml
-            - ../../todo_backend/manifests/statefulset.yaml
-            - ../../todo_backend/manifests/db-service.yaml
-            - ../../todo_backend/manifests/deployment.yaml
-            - ../../todo_backend/manifests/service.yaml
-            - ../../todo_backend/manifests/ingress.yaml
-            - ../../todo_frontend/manifests/configmap.yaml
-            - ../../todo_frontend/manifests/persistentvolumeclaim.yaml
-            - ../../todo_frontend/manifests/deployment.yaml
-            - ../../todo_frontend/manifests/service.yaml
-            - ../../todo_frontend/manifests/ingress.yaml
-            - ../../todo_generator/manifests/cronjob.yaml
+            - todo_backend/manifests/configmap.yaml
+            - todo_backend/manifests/statefulset.yaml
+            - todo_backend/manifests/db-service.yaml
+            - todo_backend/manifests/deployment.yaml
+            - todo_backend/manifests/service.yaml
+            - todo_backend/manifests/ingress.yaml
+            - todo_frontend/manifests/configmap.yaml
+            - todo_frontend/manifests/persistentvolumeclaim.yaml
+            - todo_frontend/manifests/deployment.yaml
+            - todo_frontend/manifests/service.yaml
+            - todo_frontend/manifests/ingress.yaml
+            - todo_generator/manifests/cronjob.yaml
 
           images:
             - name: TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION
@@ -145,10 +142,10 @@ jobs:
           EOF
 
       - name: Deploy to environment
-        working-directory: ./todo_app/overlays/${{ env.NAMESPACE }}
+        working-directory: ./todo_app
         run: |
           echo "Deploying to namespace: ${{ env.NAMESPACE }}"
-          kustomize build . | kubectl apply -f -
+          kustomize build . --load-restrictor LoadRestrictionsNone | kubectl apply -f -
 
       - name: Wait for deployments
         # TODO: We can have an enhanced deployment waiting logic with automatic recovery:
