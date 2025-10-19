@@ -11,9 +11,17 @@ on:
     paths:
       - "todo_app/**"
       - "!todo_app/**/*.md"
+      - ".github/workflows/main.yaml" # for testing
     branches:
-      - main # only trigger on main branch
-  workflow_dispatch: # Enable manual trigger
+      - main
+      - dev
+      - "feature/**"
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to deploy"
+        required: false
+        default: ""
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }} # GKE_PROJECT: Google Cloud Project ID. The value is stored in GitHub env secrets
@@ -22,12 +30,14 @@ env:
   REGISTRY: europe-north1-docker.pkg.dev
   REPOSITORY: my-docker-repository
   BRANCH: ${{ github.ref_name }}
+  # Determine namespace: 'project' for main, branch name for others
+  NAMESPACE: ${{ github.ref_name == 'main' && 'project' || format('env-{0}', github.ref_name) }}
 
 jobs:
   build-and-push:
     name: Build and Push Images
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ github.ref_name == 'main' && 'PROD' || 'DEV' }}
     strategy:
       matrix:
         component:
@@ -66,7 +76,7 @@ jobs:
   deploy:
     name: Deploy to GKE
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: ${{ github.ref_name == 'main' && 'PROD' || 'DEV' }}
     needs: build-and-push
     steps:
       - name: Checkout repository
@@ -92,15 +102,33 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f
 
-      - name: Update all images and deploy
+      - name: Create namespace if it doesn't exist
+        run: kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Prepare branch-specific kustomization
         working-directory: ./todo_app
         run: |
-          # Update all three images
+          # Create a temporary kustomization overlay for this branch
+          mkdir -p overlays/${{ env.NAMESPACE }}
+
+          # Copy base kustomization
+          cp kustomization.yaml overlays/${{ env.NAMESPACE }}/kustomization.yaml
+
+          # Update namespace in all resources
+          cd overlays/${{ env.NAMESPACE }}
+
+          # Update images
           kustomize edit set image TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend:$BRANCH-$GITHUB_SHA
           kustomize edit set image TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend:$BRANCH-$GITHUB_SHA
           kustomize edit set image TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator:$BRANCH-$GITHUB_SHA
 
-          # Apply all changes at once
+          # Set namespace for all resources
+          kustomize edit set namespace ${{ env.NAMESPACE }}
+
+      - name: Deploy to environment
+        working-directory: ./todo_app/overlays/${{ env.NAMESPACE }}
+        run: |
+          echo "Deploying to namespace: ${{ env.NAMESPACE }}"
           kustomize build . | kubectl apply -f -
 
       - name: Wait for deployments
@@ -111,9 +139,22 @@ jobs:
         # 4. Wait again for 2 more minutes.
         # 5. Show the deployment status.
         run: |
-          kubectl rollout status deployment todo-backend -n project --timeout=3m
-          kubectl rollout status deployment todo-frontend -n project --timeout=3m
+          kubectl rollout status deployment todo-backend -n ${{ env.NAMESPACE }} --timeout=3m
+          kubectl rollout status deployment todo-frontend -n ${{ env.NAMESPACE }} --timeout=3m
           echo "CronJob wiki-todo-generator updated successfully"
 
       - name: Show services
-        run: kubectl get services -o wide -n project
+        run: |
+          echo "Services in namespace ${{ env.NAMESPACE }}:"
+          kubectl get services -o wide -n ${{ env.NAMESPACE }}
+
+          echo ""
+          echo "Ingresses in namespace ${{ env.NAMESPACE }}:"
+          kubectl get ingress -n ${{ env.NAMESPACE }}
+
+      - name: Add deployment summary
+        if: github.event_name == 'push' && github.ref_name != 'main'
+        run: |
+          echo "🚀 Deployed to environment: ${{ env.NAMESPACE }}"
+          echo "📦 Images tagged with: $BRANCH-$GITHUB_SHA"
+          echo "🔗 Namespace: ${{ env.NAMESPACE }}"
