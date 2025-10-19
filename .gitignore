@@ -1,1 +1,4 @@
 .DS_Store
+
+# GitHub Actions workflow temporary overlays
+todo_app/overlays/

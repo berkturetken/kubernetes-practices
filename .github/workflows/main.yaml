@@ -108,22 +108,41 @@ jobs:
       - name: Prepare branch-specific kustomization
         working-directory: ./todo_app
         run: |
-          # Create a temporary kustomization overlay for this branch
+          # Create overlay directory structure
           mkdir -p overlays/${{ env.NAMESPACE }}
 
-          # Copy base kustomization
-          cp kustomization.yaml overlays/${{ env.NAMESPACE }}/kustomization.yaml
+          # Create kustomization.yaml that references the base
+          cat > overlays/${{ env.NAMESPACE }}/kustomization.yaml <<EOF
+          apiVersion: kustomize.config.k8s.io/v1beta1
+          kind: Kustomization
 
-          # Update namespace in all resources
-          cd overlays/${{ env.NAMESPACE }}
+          namespace: ${{ env.NAMESPACE }}
 
-          # Update images
-          kustomize edit set image TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend:$BRANCH-$GITHUB_SHA
-          kustomize edit set image TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend:$BRANCH-$GITHUB_SHA
-          kustomize edit set image TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator:$BRANCH-$GITHUB_SHA
+          resources:
+            - ../../todo_backend/manifests/configmap.yaml
+            - ../../todo_backend/manifests/statefulset.yaml
+            - ../../todo_backend/manifests/db-service.yaml
+            - ../../todo_backend/manifests/deployment.yaml
+            - ../../todo_backend/manifests/service.yaml
+            - ../../todo_backend/manifests/ingress.yaml
+            - ../../todo_frontend/manifests/configmap.yaml
+            - ../../todo_frontend/manifests/persistentvolumeclaim.yaml
+            - ../../todo_frontend/manifests/deployment.yaml
+            - ../../todo_frontend/manifests/service.yaml
+            - ../../todo_frontend/manifests/ingress.yaml
+            - ../../todo_generator/manifests/cronjob.yaml
 
-          # Set namespace for all resources
-          kustomize edit set namespace ${{ env.NAMESPACE }}
+          images:
+            - name: TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION
+              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend
+              newTag: $BRANCH-$GITHUB_SHA
+            - name: TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION
+              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend
+              newTag: $BRANCH-$GITHUB_SHA
+            - name: TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION
+              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator
+              newTag: $BRANCH-$GITHUB_SHA
+          EOF
 
       - name: Deploy to environment
         working-directory: ./todo_app/overlays/${{ env.NAMESPACE }}
