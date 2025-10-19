@@ -102,50 +102,16 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f
 
-      - name: Create namespace if it doesn't exist
-        run: kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
-
-      - name: Prepare branch-specific kustomization
-        working-directory: ./todo_app
-        run: |
-          # Create kustomization.yaml in the todo_app directory
-          cat > kustomization-${{ env.NAMESPACE }}.yaml <<EOF
-          apiVersion: kustomize.config.k8s.io/v1beta1
-          kind: Kustomization
-
-          namespace: ${{ env.NAMESPACE }}
-
-          resources:
-            - todo_backend/manifests/configmap.yaml
-            - todo_backend/manifests/statefulset.yaml
-            - todo_backend/manifests/db-service.yaml
-            - todo_backend/manifests/deployment.yaml
-            - todo_backend/manifests/service.yaml
-            - todo_backend/manifests/ingress.yaml
-            - todo_frontend/manifests/configmap.yaml
-            - todo_frontend/manifests/persistentvolumeclaim.yaml
-            - todo_frontend/manifests/deployment.yaml
-            - todo_frontend/manifests/service.yaml
-            - todo_frontend/manifests/ingress.yaml
-            - todo_generator/manifests/cronjob.yaml
-
-          images:
-            - name: TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION
-              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend
-              newTag: $BRANCH-$GITHUB_SHA
-            - name: TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION
-              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend
-              newTag: $BRANCH-$GITHUB_SHA
-            - name: TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION
-              newName: $REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator
-              newTag: $BRANCH-$GITHUB_SHA
-          EOF
-
       - name: Deploy to environment
         working-directory: ./todo_app
         run: |
-          echo "Deploying to namespace: ${{ env.NAMESPACE }}"
-          kustomize build . --load-restrictor LoadRestrictionsNone | kubectl apply -f -
+          kubectl create namespace ${{ env.NAMESPACE }} || true
+          kubectl config set-context --current --namespace=${{ env.NAMESPACE }}
+          kustomize edit set namespace ${{ env.NAMESPACE }}
+          kustomize edit set image TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend:$BRANCH-$GITHUB_SHA
+          kustomize edit set image TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend:$BRANCH-$GITHUB_SHA
+          kustomize edit set image TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator:$BRANCH-$GITHUB_SHA
+          kustomize build . | kubectl apply -f -
 
       - name: Wait for deployments
         # TODO: We can have an enhanced deployment waiting logic with automatic recovery:
