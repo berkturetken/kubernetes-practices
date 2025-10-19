@@ -16,6 +16,25 @@ spec:
       containers:
         - name: todo-backend
           image: TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION # this will be replaced by kustomize
+          ports:
+            - containerPort: 8090
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /todos
+              port: 8090
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /todos
+              port: 8090
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
           # configuring *all* key-value pairs in ConfigMap as (container) environment variables
           envFrom:
             - configMapRef:
