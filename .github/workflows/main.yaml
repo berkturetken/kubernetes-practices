@@ -30,9 +30,6 @@ env:
   GKE_ZONE: europe-north1-b
   REGISTRY: europe-north1-docker.pkg.dev
   REPOSITORY: my-docker-repository
-  BRANCH: ${{ github.ref_name }}
-  # Determine namespace: 'project' for main, branch name for others
-  NAMESPACE: ${{ github.ref_name == 'main' && 'project' || format('env-{0}', github.ref_name) }}
 
 jobs:
   build-and-push:
@@ -52,6 +49,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
+      - name: Set sanitized branch name
+        run: |
+          BRANCH_SAFE=$(echo "${{ github.ref_name }}" | sed 's|/|-|g')
+          echo "BRANCH=$BRANCH_SAFE" >> $GITHUB_ENV
+
       # Authenticate using a service account key
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
@@ -64,9 +66,6 @@ jobs:
       # Configure Docker to authenticate with Google Artifact Registry
       - name: Use gcloud to configure Docker
         run: gcloud auth configure-docker europe-north1-docker.pkg.dev --quiet
-
-      - name: Sanitize branch name for Docker tag
-        run: echo "BRANCH=$(echo $BRANCH | sed 's/\//-/g')" >> $GITHUB_ENV
 
       - name: Form the image name
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/${{ matrix.component.name }}:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
@@ -85,6 +84,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+
+      - name: Set sanitized branch name and namespace
+        run: |
+          BRANCH_SAFE=$(echo "${{ github.ref_name }}" | sed 's|/|-|g')
+          echo "BRANCH=$BRANCH_SAFE" >> $GITHUB_ENV
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "NAMESPACE=project" >> $GITHUB_ENV
+          else
+            echo "NAMESPACE=env-$BRANCH_SAFE" >> $GITHUB_ENV
+          fi
 
       # Authenticate using a service account key
       - name: Authenticate to Google Cloud
@@ -105,9 +114,6 @@ jobs:
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f
-
-      - name: Sanitize branch name for Docker tag
-        run: echo "BRANCH=$(echo $BRANCH | sed 's/\//-/g')" >> $GITHUB_ENV
 
       - name: Create namespace if it doesn't exist
         run: kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
