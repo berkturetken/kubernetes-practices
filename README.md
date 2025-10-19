@@ -249,6 +249,8 @@ Just the _Getting started_ chapter.
 
 - When you deploy an application to GKE cluster with Ingress enabled, it might take around 5 minutes to actually get the deployment done. Therefore, you might not see any address when you run `k get ing` for some time and get 404 or 502 even if the address is available. Hence, give it some time (e.g., ~6-7 minutes) for your application to be completely ready to reach.
 
+- [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/ping_pong)
+
 ## Info about Clusters and Contexts
 
 - A _cluster_ entry defines how to connect to a specific Kubernetes API server. It includes a server address (URL), CA and other connection details.
