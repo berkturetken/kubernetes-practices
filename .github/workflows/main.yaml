@@ -98,9 +98,15 @@ jobs:
           kustomize build . | kubectl apply -f -
 
       - name: Wait for deployments
+        # TODO: We can have an enhanced deployment waiting logic with automatic recovery:
+        # 1. Try normal rollout with 3-minute timeout.
+        # 2. If it times out, detect the stuck (i.e., not ready) and old replicasets.
+        # 3. Scale down old replicasets to 0 which forces old pods to terminate.
+        # 4. Wait again for 2 more minutes.
+        # 5. Show the deployment status.
         run: |
-          kubectl rollout status deployment todo-backend -n project --timeout=5m
-          kubectl rollout status deployment todo-frontend -n project --timeout=5m
+          kubectl rollout status deployment todo-backend -n project --timeout=3m
+          kubectl rollout status deployment todo-frontend -n project --timeout=3m
           echo "CronJob wiki-todo-generator updated successfully"
 
       - name: Show services
