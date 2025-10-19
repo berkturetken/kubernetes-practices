@@ -63,6 +63,10 @@ class SimpleHandler(BaseHTTPRequestHandler):
                 print(f"Error: {str(e)}")
                 self.end_headers()
                 self.wfile.write(f'Error: {str(e)}\n'.encode("utf-8"))
+        elif self.path == '/':
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b'OK!\n')             
         else:
             self.send_response(404)
             self.end_headers()
