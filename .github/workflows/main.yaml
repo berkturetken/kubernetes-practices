@@ -102,11 +102,12 @@ jobs:
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f
 
+      - name: Create namespace if it doesn't exist
+        run: kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+
       - name: Deploy to environment
         working-directory: ./todo_app
         run: |
-          kubectl create namespace ${{ env.NAMESPACE }} || true
-          kubectl config set-context --current --namespace=${{ env.NAMESPACE }}
           kustomize edit set namespace ${{ env.NAMESPACE }}
           kustomize edit set image TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend:$BRANCH-$GITHUB_SHA
           kustomize edit set image TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend:$BRANCH-$GITHUB_SHA
@@ -127,11 +128,10 @@ jobs:
 
       - name: Show services
         run: |
-          echo "Services in namespace ${{ env.NAMESPACE }}:"
+          echo "Services in the '${{ env.NAMESPACE }}' namespace:"
           kubectl get services -o wide -n ${{ env.NAMESPACE }}
-
-          echo ""
-          echo "Ingresses in namespace ${{ env.NAMESPACE }}:"
+          echo -e "\n"
+          echo "Ingresses in the '${{ env.NAMESPACE }}' namespace:"
           kubectl get ingress -n ${{ env.NAMESPACE }}
 
       - name: Add deployment summary
