@@ -12,7 +12,7 @@ on:
     paths:
       - "todo_app/**"
       - "!todo_app/**/*.md"
-      - ".github/workflows/main.yaml" # for testing
+      # - ".github/workflows/main.yaml" # for testing
     branches:
       - main
       - dev
