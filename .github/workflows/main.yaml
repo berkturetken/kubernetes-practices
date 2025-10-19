@@ -150,6 +150,5 @@ jobs:
       - name: Add deployment summary
         if: github.event_name == 'push' && github.ref_name != 'main'
         run: |
-          echo "🚀 Deployed to environment: ${{ env.NAMESPACE }}"
+          echo "🚀 Deployed to environment: ${{ env.NAMESPACE }} (note that this is also the namespace)"
           echo "📦 Images tagged with: $BRANCH-$GITHUB_SHA"
-          echo "🔗 Namespace: ${{ env.NAMESPACE }}"
