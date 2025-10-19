@@ -4,9 +4,9 @@ metadata:
   namespace: project
   name: todo-frontend-svc
 spec:
-  # NodePort: should not be used in production
+  # NodePort: should not be used in production. But note that GKE does not expose it outside the cluster.
   # ClusterIP: gives the Service an internal IP address that can be acccesible within the cluster
-  type: ClusterIP
+  type: NodePort
   selector:
     app: todo-frontend
   ports:
