@@ -28,12 +28,15 @@ jobs:
           - name: todo-backend
             context: ./todo_app/todo_backend
             service: todo-backend
+            resource_type: deployment
           - name: todo-frontend
             context: ./todo_app/todo_frontend
             service: todo-frontend
+            resource_type: deployment
           - name: todo-generator
             context: ./todo_app/todo_generator
-            service: todo-generator
+            service: wiki-todo-generator
+            resource_type: cronjob
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -80,5 +83,12 @@ jobs:
           COMPONENT_UPPER=$(echo "${{ matrix.component.name }}" | tr '[:lower:]' '[:upper:]' | tr '-' '_')
           kustomize edit set image ${COMPONENT_UPPER}_IMAGE_FROM_KUSTOMIZATION=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
-          kubectl rollout status deployment ${{ matrix.component.service }}
-          kubectl get services -o wide
+
+          # Check rollout status only for deployments
+          if [ "${{ matrix.component.resource_type }}" = "deployment" ]; then
+            kubectl rollout status deployment ${{ matrix.component.service }} -n project
+          else
+            echo "Skipping rollout status for ${{ matrix.component.resource_type }} ${{ matrix.component.service }}"
+          fi
+
+          kubectl get services -o wide -n project
