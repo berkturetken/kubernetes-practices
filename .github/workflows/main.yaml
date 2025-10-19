@@ -5,6 +5,7 @@ name: Release application
 # 2. Check whether we can simplify the this file because there are already repetitions of some steps.
 # 3. What happens to the deployments if we push to main multiple times in a short interval?
 # 4. Shall we add readiness/liveness probes to the deployments and wait for them here?
+# 5. Check the TODO below
 
 on:
   push:
