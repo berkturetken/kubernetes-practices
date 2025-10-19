@@ -1,5 +1,11 @@
 name: Release application
 
+# TODO
+# 1. Check the roles of the service account. Currently, we might not follow the Least Privilege Principle.
+# 2. Check whether we can simplify the this file because there are already repetitions of some steps.
+# 3. What happens to the deployments if we push to main multiple times in a short interval?
+# 4. Shall we add readiness/liveness probes to the deployments and wait for them here?
+
 on:
   push:
     paths:
