@@ -3,9 +3,9 @@ name: Release application
 on:
   push:
     paths:
-      - "todo_app/**"
+      - 'todo_app/**'
     branches:
-      - main # only trigger on main branch
+      - main  # Optional: only trigger on main branch
 
 env:
   PROJECT_ID: $${{ secrets.GKE_PROJECT }} # GKE_PROJECT: Google Cloud Project ID. The value is stored in GitHub env secrets
