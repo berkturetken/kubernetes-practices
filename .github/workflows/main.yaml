@@ -50,9 +50,9 @@ jobs:
       - name: Use gcloud CLI
         run: gcloud info
 
-      # Configure Docker to authenticate with Google Container/Artifact Registry so it can push images
+      # Configure Docker to authenticate with Google Artifact Registry so it can push images
       - name: Use gcloud to configure Docker
-        run: gcloud --quiet auth configure-docker
+        run: gcloud auth configure-docker europe-north1-docker.pkg.dev --quiet
 
       # Configures kubectl to communicate with the GKE cluster
       - name: Get GKE credentials
