@@ -239,12 +239,15 @@ Just the _Getting started_ chapter.
 - [3.4](https://github.com/berkturetken/kubernetes-practices/tree/3.4/ping_pong)
 
 - Kustomize
+
   - Applying multiple files like we have been doing so far can get quite bothersome. We could also do the following: `k apply -f manifests/`
   - But let's focus on Kustomize! Kustomize is baked into kubectl.
   - We use Kustomize to define which files are meaningful for Kubernetes.
   - Place the _kustomization.yaml_ file to the root of the project and now we can deploy with the following command: `k apply -k .` With one command, we're done with the deployment!
   - Note that the k kustomize . command shows what Kustomize would do without applying it to the cluster.
   - A good Kustomization documentation: https://itnext.io/kubernetes-kustomize-cheat-sheet-8e2d31b74d8f
+
+- When you deploy an application to GKE cluster with Ingress enabled, it might take around 5 minutes to actually get the deployment done. Therefore, you might not see any address when you run `k get ing` for some time and get 404 or 502 even if the address is available. Hence, give it some time (e.g., ~6-7 minutes) for your application to be completely ready to reach.
 
 ## Info about Clusters and Contexts
 
@@ -268,3 +271,8 @@ Just the _Getting started_ chapter.
   - Note that my macOS machine uses an Apple Silicon (i.e., ARM64 architecture) and it might cause issues since there's a platform/architecture mismatch between the Docker image I built on my machine and where it's running (e.g., GKE cluster).
 - Push the image: `docker push <dockerhub-username>/<repository-name>:<version>`
   - For example, `docker push berkturetkenwartsila/dummy_website:0.2`
+
+## Info about How to Spin Up and Stop a Cluster in GKE
+
+- Spin up a cluster: `gcloud container clusters create berk-personal-cluster --zone=europe-north1-b --cluster-version=1.32 --disk-size=32 --num-nodes=3 --machine-type=e2-micro`
+- Stop a cluster: `gcloud container clusters delete berk-personal-cluster --zone=europe-north1-b`
