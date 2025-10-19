@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: berkturetkenwartsila/todo_backend:0.6
+          image: berkturetkenwartsila/todo_backend:0.7
           # configuring *all* key-value pairs in ConfigMap as (container) environment variables
           envFrom:
             - configMapRef:

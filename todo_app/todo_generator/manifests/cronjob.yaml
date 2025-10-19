@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: wiki-todo-generator
-              image: berkturetkenwartsila/wiki_todo_generator:0.1
+              image: berkturetkenwartsila/wiki_todo_generator:0.2
               envFrom:
                 - configMapRef:
                     name: todo-backend-configmap
