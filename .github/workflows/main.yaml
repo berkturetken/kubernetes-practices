@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "todo_app/**"
+      - ".github/workflows/main.yaml"
     branches:
       - main # Optional: only trigger on main branch
   workflow_dispatch: # Enable manual trigger
