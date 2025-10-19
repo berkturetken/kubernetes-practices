@@ -14,7 +14,8 @@
 
 ## Releases
 
-- [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/ping_pong)
+- [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
+- [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/todo_app)
 - [3.4](https://github.com/berkturetken/kubernetes-practices/tree/3.4/ping_pong)
 - [3.3](https://github.com/berkturetken/kubernetes-practices/tree/3.3/ping_pong)
 - [3.2](https://github.com/berkturetken/kubernetes-practices/tree/3.2/ping_pong)
@@ -250,7 +251,8 @@ Just the _Getting started_ chapter.
 
 - When you deploy an application to GKE cluster with Ingress enabled, it might take around 5 minutes to actually get the deployment done. Therefore, you might not see any address when you run `k get ing` for some time and get 404 or 502 even if the address is available. Hence, give it some time (e.g., ~6-7 minutes) for your application to be completely ready to reach.
 
-- [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/ping_pong)
+- [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/todo_app)
+- [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
 
 ## Info about Clusters and Contexts
 
