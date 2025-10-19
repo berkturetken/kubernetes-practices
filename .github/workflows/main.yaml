@@ -6,6 +6,7 @@ on:
       - "todo_app/**"
     branches:
       - main # Optional: only trigger on main branch
+  workflow_dispatch: # Enable manual trigger
 
 env:
   PROJECT_ID: $${{ secrets.GKE_PROJECT }} # GKE_PROJECT: Google Cloud Project ID. The value is stored in GitHub env secrets
