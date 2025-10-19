@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: todo-backend
-          image: berkturetkenwartsila/todo_backend:0.7
+          image: TODO-BACKEND_IMAGE_FROM_KUSTOMIZATION # this will be replaced by kustomize
           # configuring *all* key-value pairs in ConfigMap as (container) environment variables
           envFrom:
             - configMapRef:
