@@ -65,6 +65,9 @@ jobs:
       - name: Use gcloud to configure Docker
         run: gcloud auth configure-docker europe-north1-docker.pkg.dev --quiet
 
+      - name: Sanitize branch name for Docker tag
+        run: echo "BRANCH=$(echo $BRANCH | sed 's/\//-/g')" >> $GITHUB_ENV
+
       - name: Form the image name
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/${{ matrix.component.name }}:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
@@ -102,6 +105,9 @@ jobs:
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@2ba527d4d055ab63514ba50a99456fc35684947f
+
+      - name: Sanitize branch name for Docker tag
+        run: echo "BRANCH=$(echo $BRANCH | sed 's/\//-/g')" >> $GITHUB_ENV
 
       - name: Create namespace if it doesn't exist
         run: kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
