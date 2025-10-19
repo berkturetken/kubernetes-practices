@@ -11,7 +11,7 @@ spec:
         spec:
           containers:
             - name: wiki-todo-generator
-              image: TODO-GENERATOR_IMAGE_FROM_KUSTOMIZATION # this will be replaced by kustomize
+              image: TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION # this will be replaced by kustomize
               envFrom:
                 - configMapRef:
                     name: todo-backend-configmap

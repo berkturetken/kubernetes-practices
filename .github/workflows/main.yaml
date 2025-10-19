@@ -3,9 +3,9 @@ name: Release application
 on:
   push:
     paths:
-      - 'todo_app/**'
+      - "todo_app/**"
     branches:
-      - main  # Optional: only trigger on main branch
+      - main # Optional: only trigger on main branch
 
 env:
   PROJECT_ID: $${{ secrets.GKE_PROJECT }} # GKE_PROJECT: Google Cloud Project ID. The value is stored in GitHub env secrets
@@ -74,7 +74,8 @@ jobs:
       - name: Deploy
         working-directory: ./todo_app
         run: |
-          kustomize edit set image ${{ matrix.component.name | upper }}_IMAGE_FROM_KUSTOMIZATION=$IMAGE_TAG
+          COMPONENT_UPPER=$(echo "${{ matrix.component.name }}" | tr '[:lower:]' '[:upper:]' | tr '-' '_')
+          kustomize edit set image ${COMPONENT_UPPER}_IMAGE_FROM_KUSTOMIZATION=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment ${{ matrix.component.service }}
           kubectl get services -o wide
