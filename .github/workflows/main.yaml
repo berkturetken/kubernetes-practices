@@ -62,7 +62,7 @@ jobs:
       - name: Form the image name
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/${{ matrix.component.name }}:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build the Docker image
         run: docker build --tag $IMAGE_TAG ${{ matrix.component.context }}
 
       - name: Publish
