@@ -86,7 +86,7 @@ jobs:
 
           # Check rollout status only for deployments
           if [ "${{ matrix.component.resource_type }}" = "deployment" ]; then
-            kubectl rollout status deployment ${{ matrix.component.service }} -n project
+            kubectl rollout status deployment ${{ matrix.component.service }} -n project --timeout=5m
           else
             echo "Skipping rollout status for ${{ matrix.component.resource_type }} ${{ matrix.component.service }}"
           fi

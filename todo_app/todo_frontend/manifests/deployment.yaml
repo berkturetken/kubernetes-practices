@@ -5,6 +5,8 @@ metadata:
   name: todo-frontend
 spec:
   replicas: 1
+  strategy:
+    type: Recreate # Use Recreate strategy for ReadWriteOnce volumes
   selector:
     matchLabels:
       app: todo-frontend

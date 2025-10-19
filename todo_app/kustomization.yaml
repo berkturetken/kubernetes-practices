@@ -15,12 +15,12 @@ resources:
   - todo_frontend/manifests/ingress.yaml
   - todo_generator/manifests/cronjob.yaml
 images:
-  - name: TODO-BACKEND_IMAGE_FROM_KUSTOMIZATION
+  - name: TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION
     newName: placeholder # will be replaced in the GitHub Actions workflow
     newTag: placeholder # will be replaced in the GitHub Actions workflow
-  - name: TODO-FRONTEND_IMAGE_FROM_KUSTOMIZATION
+  - name: TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION
     newName: placeholder # will be replaced in the GitHub Actions workflow
     newTag: placeholder # will be replaced in the GitHub Actions workflow
-  - name: TODO-GENERATOR_IMAGE_FROM_KUSTOMIZATION
+  - name: TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION
     newName: placeholder # will be replaced in the GitHub Actions workflow
     newTag: placeholder # will be replaced in the GitHub Actions workflow
