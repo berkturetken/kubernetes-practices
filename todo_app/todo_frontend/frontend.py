@@ -42,15 +42,19 @@ def get_image():
         print(f"Error fetching image: {e}")
         return None
 
+
 def fetch_todos():
     try:
         with urllib.request.urlopen(f"{BACKEND_URL}/todos") as response:
             # Parse JSON array from backend
             return json.loads(response.read().decode("utf-8"))
     except Exception as e:
-        error_msg = f"Backend connection error: Unable to connect to {BACKEND_URL}/todos"
+        error_msg = (
+            f"Backend connection error: Unable to connect to {BACKEND_URL}/todos"
+        )
         print(f"Error fetching todos: {e}")
         return [error_msg]
+
 
 def prepare_basic_html(img_html, todos_html):
     return f"""
@@ -84,46 +88,53 @@ def prepare_basic_html(img_html, todos_html):
             </html>
             """
 
+
 class SimpleHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/':
+        if self.path == "/":
             img_data = get_image()
             if img_data is not None:
                 # Encode image as base64 to embed in HTML
                 img_base64 = base64.b64encode(img_data).decode("utf-8")
-                img_html = f'<img src="data:image/jpeg;base64,{img_base64}" width="600"/>'
+                img_html = (
+                    f'<img src="data:image/jpeg;base64,{img_base64}" width="600"/>'
+                )
             else:
-                img_html = '<p>Error loading image.</p>'
+                img_html = "<p>Error loading image.</p>"
             todos = fetch_todos()
             if todos and todos[0].startswith("Backend connection error"):
                 todos_html = f'<div style="color: red; padding: 10px; background-color: #ffe6e6; border: 1px solid #ff8080; border-radius: 5px;">{todos[0]}</div>'
             else:
-                if len(todos) == 1 and (todos[0] == "No todos yet." or todos[0] == "Could not fetch todos."):
+                if len(todos) == 1 and (
+                    todos[0] == "No todos yet." or todos[0] == "Could not fetch todos."
+                ):
                     todos[0] = ""
                 todos_html = "".join(f"<li>{todo}</li>" for todo in todos)
 
             html = prepare_basic_html(img_html, todos_html)
             self.send_response(200)
-            self.send_header('Content-type', 'text/html')
+            self.send_header("Content-type", "text/html")
             self.end_headers()
             self.wfile.write(html.encode("utf-8"))
         else:
             self.send_response(404)
             self.end_headers()
-            self.wfile.write(b'404 Not Found\n')
-    
+            self.wfile.write(b"404 Not Found\n")
+
     def do_POST(self):
-        if self.path == '/todos':
-            content_length = int(self.headers.get('Content-Length', 0))
+        if self.path == "/todos":
+            content_length = int(self.headers.get("Content-Length", 0))
             post_data = self.rfile.read(content_length).decode("utf-8")
             # Forward the POST to the backend
-            req = urllib.request.Request(f"{BACKEND_URL}/todos", data=post_data.encode("utf-8"), method="POST")
+            req = urllib.request.Request(
+                f"{BACKEND_URL}/todos", data=post_data.encode("utf-8"), method="POST"
+            )
             req.add_header("Content-Type", "application/x-www-form-urlencoded")
             try:
                 with urllib.request.urlopen(req) as resp:
                     # Redirect back to main page after successful POST
                     self.send_response(303)
-                    self.send_header('Location', '/')
+                    self.send_header("Location", "/")
                     self.end_headers()
             except Exception as e:
                 self.send_response(500)
@@ -132,7 +143,8 @@ class SimpleHandler(BaseHTTPRequestHandler):
         else:
             self.send_response(404)
             self.end_headers()
-            self.wfile.write(b'404 Not Found\n')
+            self.wfile.write(b"404 Not Found\n")
+
 
 if __name__ == "__main__":
     print(f"Welcome to the ToDo App! Starting server on port {PORT}...")

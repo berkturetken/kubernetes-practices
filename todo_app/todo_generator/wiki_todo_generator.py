@@ -14,28 +14,27 @@ DB_PASSWORD = os.environ.get("POSTGRES_PASSWORD")
 
 IS_LOCAL = "--local" in sys.argv
 if IS_LOCAL:
-    HOST= os.environ.get("LOCAL_POSTGRES_HOST")
+    HOST = os.environ.get("LOCAL_POSTGRES_HOST")
 else:
     HOST = os.environ.get("PROD_POSTGRES_HOST")
 
+
 def get_random_wikipedia_url():
     """Get a random Wikipedia article URL by following redirect"""
-    response = requests.head("https://en.wikipedia.org/wiki/Special:Random", 
-                            allow_redirects=False)
+    response = requests.head(
+        "https://en.wikipedia.org/wiki/Special:Random", allow_redirects=False
+    )
     if response.status_code == 302:  # Redirect status code
         return response.headers.get("Location")
     return "https://en.wikipedia.org/wiki/Special:Random"
+
 
 def insert_todo(url):
     """Insert a new todo into the database"""
     todo_text = f"Read {url}"
 
     conn = psycopg2.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=HOST,
-        port=DB_PORT
+        dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=HOST, port=DB_PORT
     )
 
     try:
@@ -49,6 +48,7 @@ def insert_todo(url):
         if conn:
             cur.close()
             conn.close()
+
 
 if __name__ == "__main__":
     print(f"Running Wikipedia todo generator at {datetime.now()}")
