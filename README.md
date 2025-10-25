@@ -246,7 +246,7 @@ Just the _Getting started_ chapter.
   - Applying multiple files like we have been doing so far can get quite bothersome. We could also do the following: `k apply -f manifests/`
   - But let's focus on Kustomize! Kustomize is baked into kubectl.
   - We use Kustomize to define which files are meaningful for Kubernetes.
-  - Place the _kustomization.yaml_ file to the root of the project and now we can deploy with the following command: `k apply -k .` With one command, we're done with the deployment!
+  - Place the _kustomization.yaml_ file to the root of the project and now we can deploy with the following command: `k apply -k .` With one command, we're done with the deployment! Note that `k apply -k` and `kustomize build path/to/some/app | k apply -f -` are the same things. The first one is more useful and shorter since Kustomize is built into `kubectl`.
   - Note that the k kustomize . command shows what Kustomize would do without applying it to the cluster.
   - A good Kustomization documentation: https://itnext.io/kubernetes-kustomize-cheat-sheet-8e2d31b74d8f
 
