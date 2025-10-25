@@ -14,6 +14,7 @@
 
 ## Releases
 
+- [3.8](https://github.com/berkturetken/kubernetes-practices/tree/3.8/todo_app)
 - [3.7](https://github.com/berkturetken/kubernetes-practices/tree/3.7/todo_app)
 - [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
 - [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/todo_app)
@@ -255,6 +256,7 @@ Just the _Getting started_ chapter.
 - [3.5](https://github.com/berkturetken/kubernetes-practices/tree/3.5/todo_app)
 - [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
 - [3.7](https://github.com/berkturetken/kubernetes-practices/tree/3.7/todo_app)
+- [3.8](https://github.com/berkturetken/kubernetes-practices/tree/3.8/todo_app)
 
 ## Info about Clusters and Contexts
 
