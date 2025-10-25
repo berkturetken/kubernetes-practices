@@ -12,7 +12,7 @@ jobs:
   cleanup:
     name: Delete Environment
     runs-on: ubuntu-latest
-    environment: DEV # we never delete main anyway
+    environment: DEV # we never delete main anyway hence the hardcoded DEV
     if: github.event.ref_type == 'branch'
     steps:
       - name: Set sanitized branch name and namespace
@@ -41,7 +41,7 @@ jobs:
 
       - name: Delete namespace
         run: |
-          if kubectl get namespace ${{ env.NAMESPACE }} &> /dev/null; then
+          if kubectl get namespace ${{ env.NAMESPACE }} 2>/dev/null; then
             echo "Deleting namespace: ${{ env.NAMESPACE }}"
             kubectl delete namespace ${{ env.NAMESPACE }} --timeout=15m
             echo "✅ Namespace ${{ env.NAMESPACE }} deleted successfully"
