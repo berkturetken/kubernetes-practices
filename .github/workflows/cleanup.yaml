@@ -1,10 +1,7 @@
-name: Cleanup environment
+name: Clean up environment
 
 on:
   delete:
-    branches:
-      - dev
-      - "feature/**"
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -21,8 +18,8 @@ jobs:
       - name: Set sanitized branch name and namespace
         run: |
           BRANCH_SAFE=$(echo "${{ github.event.ref }}" | sed 's|/|-|g')
-          echo "BRANCH=$BRANCH_SAFE" >> $GITHUB_ENV
-          echo "NAMESPACE=env-$BRANCH_SAFE" >> $GITHUB_ENV
+          NAMESPACE="env-$BRANCH_SAFE"
+          echo "NAMESPACE=$NAMESPACE" >> $GITHUB_ENV
           echo "The $NAMESPACE namespace will be deleted."
 
       # Authenticate using a service account key
@@ -46,7 +43,7 @@ jobs:
         run: |
           if kubectl get namespace ${{ env.NAMESPACE }} &> /dev/null; then
             echo "Deleting namespace: ${{ env.NAMESPACE }}"
-            kubectl delete namespace ${{ env.NAMESPACE }} --timeout=5m
+            kubectl delete namespace ${{ env.NAMESPACE }} --timeout=15m
             echo "✅ Namespace ${{ env.NAMESPACE }} deleted successfully"
           else
             echo "⚠️ Namespace ${{ env.NAMESPACE }} does not exist"
