@@ -1,0 +1,53 @@
+name: Cleanup environment
+
+on:
+  delete:
+    branches:
+      - dev
+      - "feature/**"
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: berk-personal-cluster
+  GKE_ZONE: europe-north1-b
+
+jobs:
+  cleanup:
+    name: Delete Environment
+    runs-on: ubuntu-latest
+    environment: DEV # we never delete main anyway
+    if: github.event.ref_type == 'branch'
+    steps:
+      - name: Set sanitized branch name and namespace
+        run: |
+          BRANCH_SAFE=$(echo "${{ github.event.ref }}" | sed 's|/|-|g')
+          echo "BRANCH=$BRANCH_SAFE" >> $GITHUB_ENV
+          echo "NAMESPACE=env-$BRANCH_SAFE" >> $GITHUB_ENV
+          echo "The $NAMESPACE namespace will be deleted."
+
+      # Authenticate using a service account key
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093
+        with:
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db
+
+      # Configures kubectl to communicate with the GKE cluster
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@3da1e46a907576cefaa90c484278bb5b259dd395
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          project_id: ${{ env.PROJECT_ID }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Delete namespace
+        run: |
+          if kubectl get namespace ${{ env.NAMESPACE }} &> /dev/null; then
+            echo "Deleting namespace: ${{ env.NAMESPACE }}"
+            kubectl delete namespace ${{ env.NAMESPACE }} --timeout=5m
+            echo "✅ Namespace ${{ env.NAMESPACE }} deleted successfully"
+          else
+            echo "⚠️ Namespace ${{ env.NAMESPACE }} does not exist"
+          fi
