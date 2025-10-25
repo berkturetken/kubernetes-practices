@@ -42,9 +42,9 @@ jobs:
       - name: Delete namespace
         run: |
           if kubectl get namespace ${{ env.NAMESPACE }} 2>/dev/null; then
-            echo "Deleting namespace: ${{ env.NAMESPACE }}"
+            echo "Deleting namespace: ${{ env.NAMESPACE }}. The next line is coming from the kubectl delete command itself. It doesn't mean that the deletion is completed. Hence, wait for the 'deleted successfully' message."
             kubectl delete namespace ${{ env.NAMESPACE }} --timeout=15m
-            echo "✅ Namespace ${{ env.NAMESPACE }} deleted successfully"
+            echo "✅ Namespace ${{ env.NAMESPACE }} deleted successfully!"
           else
             echo "⚠️ Namespace ${{ env.NAMESPACE }} does not exist. Therefore, nothing to clean up!"
           fi
