@@ -45,6 +45,8 @@ jobs:
             context: ./todo_app/todo_frontend
           - name: todo-generator
             context: ./todo_app/todo_generator
+          - name: postgres-backup
+            context: ./todo_app/postgres_backup
     steps:
       - name: Checkout repository
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
@@ -125,6 +127,7 @@ jobs:
           kustomize edit set image TODO_BACKEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-backend:$BRANCH-$GITHUB_SHA
           kustomize edit set image TODO_FRONTEND_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-frontend:$BRANCH-$GITHUB_SHA
           kustomize edit set image TODO_GENERATOR_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/todo-generator:$BRANCH-$GITHUB_SHA
+          kustomize edit set image POSTGRES_BACKUP_IMAGE_FROM_KUSTOMIZATION=$REGISTRY/$PROJECT_ID/$REPOSITORY/postgres-backup:$BRANCH-$GITHUB_SHA
           kustomize build . | kubectl apply -f -
 
       - name: Wait for deployments

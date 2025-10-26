@@ -1,0 +1,38 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: postgres-backup
+  namespace: project
+spec:
+  # Run daily at 2 AM UTC
+  # For testing, change to "*/5 * * * *" to run every 5 minutes
+  # Every day at 2:00 AM: "0 2 * * *"
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: postgres-backup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: POSTGRES_BACKUP_IMAGE_FROM_KUSTOMIZATION # this will be replaced by kustomize
+              envFrom:
+                # Import all database credentials from database ConfigMap
+                - configMapRef:
+                    name: todo-db-configmap
+                # Import all backup configuration from database backup ConfigMap
+                - configMapRef:
+                    name: todo-db-backup-configmap
+              volumeMounts:
+                - name: gcs-key
+                  mountPath: /secrets/gcs
+                  readOnly: true
+          volumes:
+            - name: gcs-key
+              secret:
+                secretName: gcs-backup-key
