@@ -14,6 +14,7 @@
 
 ## Releases
 
+- [3.9](https://github.com/berkturetken/kubernetes-practices/tree/3.9/todo_app)
 - [3.8](https://github.com/berkturetken/kubernetes-practices/tree/3.8/todo_app)
 - [3.7](https://github.com/berkturetken/kubernetes-practices/tree/3.7/todo_app)
 - [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
@@ -257,6 +258,10 @@ Just the _Getting started_ chapter.
 - [3.6](https://github.com/berkturetken/kubernetes-practices/tree/3.6/todo_app)
 - [3.7](https://github.com/berkturetken/kubernetes-practices/tree/3.7/todo_app)
 - [3.8](https://github.com/berkturetken/kubernetes-practices/tree/3.8/todo_app)
+
+- See the [database comparison documentation](./todo_app/docs/DATABASE_COMPARISON.md) for the pros/cons of _Database as a Service (DBaaS)_ and _Do It Yourself (DIY)_ database solutions.
+
+- [3.9](https://github.com/berkturetken/kubernetes-practices/tree/3.9/todo_app)
 
 ## Info about Clusters and Contexts
 
