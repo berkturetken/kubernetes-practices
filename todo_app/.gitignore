@@ -1,3 +1,6 @@
 *.jpg
 *.png
 .env
+
+# No private keys
+sa-private-key.json
