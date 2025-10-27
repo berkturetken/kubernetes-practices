@@ -6,6 +6,7 @@ metadata:
 data:
   POSTGRES_HOST: "todo-db-svc"
   POSTGRES_PORT: "5432"
+  PGPASSWORD: "todo_pass" # Used by pg_dump for authentication
   GCS_BUCKET: "todo-app-backup-bucket"
   BACKUP_RETENTION_DAYS: "10"
   GCS_SERVICE_ACCOUNT: "github-actions@todo-gke-470001.iam.gserviceaccount.com"
