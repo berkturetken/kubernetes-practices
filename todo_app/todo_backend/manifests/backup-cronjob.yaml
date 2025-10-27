@@ -7,7 +7,7 @@ spec:
   # Run daily at 2 AM UTC
   # For testing, change to "*/5 * * * *" to run every 5 minutes
   # Every day at 2:00 AM: "0 2 * * *"
-  schedule: "*/5 * * * *"
+  schedule: "0 2 * * *"
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
   jobTemplate:
