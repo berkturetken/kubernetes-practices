@@ -5,7 +5,7 @@ metadata:
   name: todo-db-backup-configmap
 data:
   POSTGRES_HOST: "todo-db-svc"
-  POSTGRES_PORT: "7654"
+  POSTGRES_PORT: "5432"
   GCS_BUCKET: "todo-app-backup-bucket"
   BACKUP_RETENTION_DAYS: "10"
   GCS_SERVICE_ACCOUNT: "github-actions@todo-gke-470001.iam.gserviceaccount.com"
